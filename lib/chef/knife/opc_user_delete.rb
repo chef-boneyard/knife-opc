@@ -24,6 +24,7 @@ module Opc
     def run
       username = @name_args[0]
       @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
+      ui.confirm "Do you want to delete the user #{username}"
       ui.output @chef_rest.delete_rest("users/#{username}")
     end
   end

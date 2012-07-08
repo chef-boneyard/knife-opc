@@ -24,6 +24,7 @@ module Opc
     def run
       org_name = @name_args[0]
       @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
+      ui.confirm "Do you want to delete the organization #{org_name}"
       ui.output @chef_rest.delete_rest("organizations/#{org_name}")
     end
   end
