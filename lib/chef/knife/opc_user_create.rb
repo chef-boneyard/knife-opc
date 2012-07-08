@@ -19,7 +19,7 @@
 module Opc
   class OpcUserCreate < Chef::Knife
     category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
-    banner "knife opc org create ORGSHORTNAME ORGLONGNAME"
+    banner "knife opc user create USERNAME FIRST_NAME [MIDDLE_NAME] LAST_NAME EMAIL PASSWORD"
 
     option :filename,
     :long => '--filename FILENAME',

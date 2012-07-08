@@ -19,7 +19,7 @@
 module Opc
   class OpcUserShow < Chef::Knife
     category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
-    banner "knife opc user show username"
+    banner "knife opc user show USERNAME"
 
     option :with_orgs,
     :long => "--with-orgs",
