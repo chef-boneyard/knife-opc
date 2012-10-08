@@ -19,15 +19,21 @@
 module Opc
   class OpcOrgCreate < Chef::Knife
     category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
-    banner "knife opc org create ORG_SHORT_NAME ORG_FULL_NAME"
+    banner "knife opc org create ORG_SHORT_NAME ORG_FULL_NAME (options)"
 
     option :filename,
     :long => '--filename FILENAME',
     :short => '-f FILENAME'
 
+    option :association_user,
+    :long => '--association_user USERNAME',
+    :short => '-a USERNAME'
+
+    attr_accessor :org_name, :org_full_name
 
     def run
-      org_name, org_full_name = @name_args
+      @org_name, @org_full_name = @name_args
+
       if !org_name || !org_full_name
         ui.fatal "You must specify an ORG_NAME and an ORG_FULL_NAME"
         show_usage
@@ -44,6 +50,15 @@ module Opc
       else
         ui.msg result['private_key']
       end
+      associate_user config[:association_user] if config[:association_user]
     end
+
+    def associate_user(username)
+      request_body = {:user => username}
+      response = @chef_rest.post_rest "organizations/#{org_name}/association_requests", request_body
+      association_id = response["uri"].split("/").last
+      @chef_rest.put_rest "users/#{username}/association_requests/#{association_id}", { :response => 'accept' }
+    end
+
   end
 end
