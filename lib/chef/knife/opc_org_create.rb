@@ -54,11 +54,31 @@ module Opc
     end
 
     def associate_user(username)
+
+      # First, create and accept the organization invite
       request_body = {:user => username}
       response = @chef_rest.post_rest "organizations/#{org_name}/association_requests", request_body
       association_id = response["uri"].split("/").last
       @chef_rest.put_rest "users/#{username}/association_requests/#{association_id}", { :response => 'accept' }
+
+      # Next, add the user to the admin and billing-admin group
+      add_user_to_group(username, "admins")
+      add_user_to_group(username, "billing-admins")
     end
 
+
+    # Note, this should *really* use the same method
+    # used in knife-acl
+    def add_user_to_group(username, groupname)
+      group = @chef_rest.get_rest "organizations/#{org_name}/groups/#{groupname}"
+      body_hash = {
+        :groupname => "#{groupname}",
+        :actors => {
+          "users" => group["actors"].concat([username]),
+          "groups" => group["groups"]
+        }
+      }
+      @chef_rest.put_rest "organizations/#{org_name}/groups/#{groupname}", body_hash
+    end
   end
 end
