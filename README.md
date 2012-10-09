@@ -91,11 +91,11 @@ Shows description of given ORG_NAME.
   * `-f FILENAME`, `--filename FILENAME`:
     Write private key to FILENAME rather than STDOUT.
 
+  *  `-a USERNAME`, `--association_user USERNAME`,
+    Associate USERNAME with the organization after creation.
+
 Creates a new OPC Organization.  The private key for the organization's
 validator client is returned.
-
-WARNING: This does not currently associate any users to the created
-organization.  Making it rather useless.
 
 ## knife opc org delete ORG_NAME
 
