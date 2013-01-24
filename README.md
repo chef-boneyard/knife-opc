@@ -38,11 +38,7 @@ of your OPC installation:
 ## OPC Permissions
 
 Using this plugin requires giving your user additional permissions on
-objects within your Private Chef installation.  You can use the
-following function in OrgMapper to give your user the permissions
-necessary to use this plugin:
-
-[To Write]
+objects within your Private Chef installation.
 
 # Subcommands
 
