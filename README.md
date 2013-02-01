@@ -11,12 +11,11 @@ the risk for any damage done to their OPC installation.
 
 # Installation
 
-This knife plugin is packaged as a gem.  To install it, enter the
-following:
+This knife plugin is packaged as a gem.  To install it, clone the
+git repository and run the following:
 
-    gem install knife-opc
-    # or if the gem has yet to be published to Rubygems
-    gem install knife-opc-x.y.z.gem
+    gem build knife-opc.gemspec
+    gem install knife-opc-0.0.1.gem
 
 # Configuration
 
@@ -104,4 +103,3 @@ Deletes the given OPC user.
 * `--with-users` option for `org show` subcommand.
 * Filter pre-created orgs from `org list` subcommand.
 * Filter unused fields from `org show`.
-* Handle initial user associations in `org create`.
