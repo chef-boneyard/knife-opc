@@ -100,5 +100,4 @@ Deletes the given OPC user.
 * Create OrgMapper function to give a user necessary
   permissions to run all subcommands.
 * `--with-users` option for `org show` subcommand.
-* Filter pre-created orgs from `org list` subcommand.
 * Filter unused fields from `org show`.
