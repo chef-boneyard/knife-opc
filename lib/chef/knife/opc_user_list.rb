@@ -23,7 +23,8 @@ module Opc
 
     option :with_uri,
     :long => "--with-uri",
-    :short => "-w"
+    :short => "-w",
+    :description => "Show corresponding URIs"
 
     def run
       @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])

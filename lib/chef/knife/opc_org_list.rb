@@ -23,7 +23,8 @@ module Opc
 
     option :with_uri,
     :long => "--with-uri",
-    :short => "-w"
+    :short => "-w",
+    :description => "Show corresponding URIs"
 
     option :all_orgs,
     :long => "--all-orgs",
