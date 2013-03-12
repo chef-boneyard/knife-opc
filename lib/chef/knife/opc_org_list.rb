@@ -28,6 +28,9 @@ module Opc
     def run
       @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
       results =  @chef_rest.get_rest("organizations")
+      unless Chef::Config[:show_hidden_orgs]
+        results = results.select { |k,v| !(k.length == 20 && k =~ /^[a-z]+$/) }
+      end
       ui.output(ui.format_list_for_display(results))
     end
   end
