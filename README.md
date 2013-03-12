@@ -71,11 +71,8 @@ Deletes the given OPC user.
   * `-w`, `--with-uri`:
      Show corresponding URIs
 
-  * knife.rb
-    ```ruby
-    show_hidden_orgs = [true|false]
-    ```
-    Turn on display of hidden orgs (off by default).
+  * `-a`, `--all-orgs`:
+    Display hidden orgs
 
 Show a list of all organizations in your OPC installation.
 
