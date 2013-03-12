@@ -3,11 +3,7 @@
 # Description
 
 This is an UNOFFICIAL and EXPERIMENTAL knife plugin to support basic
-organization and user operations in Opscode Private Chef (OPC).  This
-plugin is under development and is NOT supported by Opscode.  OPC
-Customers SHOULD NOT use this plugin unless they are willing to assume
-the risk for any damage done to their OPC installation.
-
+organization and user operations in Opscode Private Chef (OPC).
 
 # Installation
 
