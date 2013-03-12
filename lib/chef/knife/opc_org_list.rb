@@ -23,11 +23,20 @@ module Opc
 
     option :with_uri,
     :long => "--with-uri",
-    :short => "-w"
+    :short => "-w",
+    :description => "Show corresponding URIs"
+
+    option :all_orgs,
+    :long => "--all-orgs",
+    :short => "-a",
+    :description => "Show auto-generated hidden orgs in output"
 
     def run
       @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
       results =  @chef_rest.get_rest("organizations")
+      unless config[:all_orgs] 
+        results = results.select { |k,v| !(k.length == 20 && k =~ /^[a-z]+$/) }
+      end
       ui.output(ui.format_list_for_display(results))
     end
   end

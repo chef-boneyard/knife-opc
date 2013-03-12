@@ -23,7 +23,8 @@ module Opc
 
     option :filename,
     :long => '--filename FILENAME',
-    :short => '-f FILENAME'
+    :short => '-f FILENAME',
+    :description => 'Write private key to FILENAME rather than STDOUT'
 
     def run
       case @name_args.count
