@@ -23,11 +23,13 @@ module Opc
 
     option :filename,
     :long => '--filename FILENAME',
-    :short => '-f FILENAME'
+    :short => '-f FILENAME',
+    :description => 'Write validator private key to FILENAME rather than STDOUT'
 
     option :association_user,
     :long => '--association_user USERNAME',
-    :short => '-a USERNAME'
+    :short => '-a USERNAME',
+    :description => 'Invite USERNAME to the new organization after creation'
 
     attr_accessor :org_name, :org_full_name
 
