@@ -48,6 +48,7 @@ describe Opc::OpcOrgCreate do
 
       it 'should create org and associate user' do
         @rest.should_receive(:post_rest).with('organizations/', org_args).and_return(result)
+        @knife.ui.should_receive(:msg).with(result['private_key'])
         @knife.should_receive(:associate_user).with('ramsay')
         @knife.run
       end
