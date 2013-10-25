@@ -12,8 +12,8 @@ describe Opc::OpcOrgList do
 
   before :each do
     @rest = double('Chef::REST')
-    Chef::REST.should_receive(:new).and_return(@rest)
-    @rest.should_receive(:get_rest).with('organizations').and_return(orgs)
+    Chef::REST.stub(:new).and_return(@rest)
+    @rest.stub(:get_rest).with('organizations').and_return(orgs)
     @knife = Chef::Knife::OpcOrgList.new
   end
 
