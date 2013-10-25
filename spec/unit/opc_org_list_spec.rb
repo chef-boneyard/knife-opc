@@ -5,7 +5,8 @@ describe Opc do
   let(:orgs) do
     {
       'org1' => 'first',
-      'org2' => 'second'
+      'org2' => 'second',
+      'hiddenhiddenhiddenhi' => 'hidden'
     }
   end
 
@@ -16,9 +17,21 @@ describe Opc do
     @knife = Chef::Knife::OpcOrgList.new
   end
 
-  describe 'should list all org' do    
-    it do
+  describe 'with no arguments' do
+    it 'should list all non hidden orgs' do
       @knife.ui.should_receive(:output).with(['org1','org2'])
+      @knife.run
+    end
+
+  end
+
+  describe 'with all_orgs argument' do
+    before do
+      @knife.config[:all_orgs] = true
+    end
+
+    it 'should list all orgs including hidden orgs' do
+      @knife.ui.should_receive(:output).with(['hiddenhiddenhiddenhi','org1','org2'])
       @knife.run
     end
   end
