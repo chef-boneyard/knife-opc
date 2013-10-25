@@ -11,15 +11,15 @@ describe Opc::OpcOrgCreate do
 
   let(:org_args) do
     {
-      :name => @org_name, 
+      :name => @org_name,
       :full_name => @org_full_name
     }
   end
 
   let(:result) do
     {
-      :private_key => 'hello'
-    } 
+      :private_key => "You don't come into cooking to get rich - Ramsay"
+    }
   end
 
   describe 'with no org_name and org_fullname' do
@@ -30,14 +30,27 @@ describe Opc::OpcOrgCreate do
     end
   end
 
-  describe '' do
+  describe 'with org_name and org_fullname' do
     before :each do
       @knife.name_args << @org_name << @org_full_name
     end
-    it 'should create an org' do 
-      @rest.should_receive(:post_rest).with('organizations/',org_args).and_return(result)
+
+    it 'should create an org' do
+      @rest.should_receive(:post_rest).with('organizations/', org_args).and_return(result)
       @knife.ui.should_receive(:msg).with(result['private_key'])
       @knife.run
+    end
+
+    context 'and associate user' do
+      before :each do
+        @knife.config[:association_user] = 'ramsay'
+      end
+
+      it 'should create org and associate user' do
+        @rest.should_receive(:post_rest).with('organizations/', org_args).and_return(result)
+        @knife.should_receive(:associate_user).with('ramsay')
+        @knife.run
+      end
     end
   end
 end
