@@ -30,10 +30,8 @@ of your OPC installation:
 
     chef_server_root https://chef.yourdomain.com/
 
-## OPC Permissions
-
-Using this plugin requires giving your user additional permissions on
-objects within your Private Chef installation.
+Note that most users in an OPC installation lack the permissions to
+run most of the commands from this plugin.
 
 # Subcommands
 
@@ -97,7 +95,5 @@ Deletes the given OPC user.
 
 # TODO
 
-* Create OrgMapper function to give a user necessary
-  permissions to run all subcommands.
 * `--with-users` option for `org show` subcommand.
 * Filter unused fields from `org show`.
