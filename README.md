@@ -60,7 +60,7 @@ Creates a new user in your OPC installation.  The user's private key
 will be returned in response.  Without this key, the user will need to
 log into the WebUI and regenerate their key before they can use knife.
 
-## knife opc user delete USERNAME
+## knife opc user delete USERNAME [-d]
 
 Deletes the given OPC user.
 

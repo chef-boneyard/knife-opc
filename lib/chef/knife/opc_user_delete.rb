@@ -19,12 +19,24 @@
 module Opc
   class OpcUserDelete < Chef::Knife
     category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
-    banner "knife opc user delete USERNAME"
+    banner "knife opc user delete USERNAME [-d]"
+
+    option :no_disassociate_user,
+    :long => "--no-disassociate-user",
+    :short => "-d",
+    :description => "Don't disassociate the user first"
 
     def run
       username = @name_args[0]
       @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
       ui.confirm "Do you want to delete the user #{username}"
+      unless config[:no_disassociate_user]
+         orgs =  @chef_rest.get_rest("users/#{username}/organizations")
+         org_names = orgs.map {|o| o['organization']['name']}
+         org_names.each do |org|
+            ui.output @chef_rest.delete_rest("organizations/#{org}/users/#{username}")
+         end
+      end
       ui.output @chef_rest.delete_rest("users/#{username}")
     end
   end
