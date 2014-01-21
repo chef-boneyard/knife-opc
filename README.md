@@ -2,8 +2,8 @@
 
 # Description
 
-This is an UNOFFICIAL and EXPERIMENTAL knife plugin to support basic
-organization and user operations in Opscode Private Chef (OPC).
+This knife plugin supports basic organization and user operations in
+Enterprise Chef (formerly Opscode Private Chef).
 
 # Installation
 
