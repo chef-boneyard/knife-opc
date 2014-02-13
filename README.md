@@ -64,6 +64,10 @@ log into the WebUI and regenerate their key before they can use knife.
 
 Deletes the given OPC user.
 
+## knife opc user edit USERNAME
+
+Will open $EDITOR. When finished, Knife will update the given OPC user.
+
 ## knife opc org list
 
   * `-w`, `--with-uri`:
