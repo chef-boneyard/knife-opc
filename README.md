@@ -36,7 +36,17 @@ of your OPC installation:
     chef_server_root https://chef.yourdomain.com/
 
 Note that most users in an OPC installation lack the permissions to
-run most of the commands from this plugin.
+run most of the commands from this plugin.  In order to use commands
+such as `knife opc org create`, you must authenticate as the 'pivotal' user.
+Add the following to your knife.rb to use the user 'pivotal':
+
+    node_name 'pivotal'
+    client_key '/etc/opscode/pivotal.pem'
+
+Note that the key for the pivotal user is in /etc/opscode on any node
+in your Chef Server cluster.  We recommend that you only use the
+pivotal user from a Chef Server itself and not copy this key off the
+machine.
 
 # Subcommands
 
