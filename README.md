@@ -112,6 +112,14 @@ validator client is returned.
 
 Deletes the given OPC user.
 
+# KNOWN ISSUES
+
+* Attempting to delete and immediately recreate an organization will
+  result in an error (a 500 or a 409 Conflict depending on the server
+  version). This is because of a server-side cache that must be
+  cleared. Restarting the frontend services before recreating the org
+  is necessary to avoid the error.
+
 # TODO
 
 * `--with-users` option for `org show` subcommand.
