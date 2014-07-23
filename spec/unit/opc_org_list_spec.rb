@@ -11,15 +11,17 @@ describe Opc::OpcOrgList do
   end
 
   before :each do
+    rest_class = double('rest_class')
     @rest = double('Chef::REST')
-    Chef::REST.stub(:new).and_return(@rest)
-    @rest.stub(:get_rest).with('organizations').and_return(orgs)
+    stub_const("Chef::REST", rest_class)
+    allow(rest_class).to receive(:new).and_return(@rest)
+    allow(@rest).to receive(:get_rest).with('organizations').and_return(orgs)
     @knife = Chef::Knife::OpcOrgList.new
   end
 
   describe 'with no arguments' do
-    it 'should list all non hidden orgs' do
-      @knife.ui.should_receive(:output).with(['org1','org2'])
+    it 'lists all non hidden orgs' do
+      expect(@knife.ui).to receive(:output).with(['org1','org2'])
       @knife.run
     end
 
@@ -30,8 +32,8 @@ describe Opc::OpcOrgList do
       @knife.config[:all_orgs] = true
     end
 
-    it 'should list all orgs including hidden orgs' do
-      @knife.ui.should_receive(:output).with(['hiddenhiddenhiddenhi','org1','org2'])
+    it 'lists all orgs including hidden orgs' do
+      expect(@knife.ui).to receive(:output).with(['hiddenhiddenhiddenhi','org1','org2'])
       @knife.run
     end
   end

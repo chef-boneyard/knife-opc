@@ -3,8 +3,10 @@ require File.expand_path('../../spec_helper', __FILE__)
 describe Opc::OpcOrgCreate do
   before :each do
     @knife = Chef::Knife::OpcOrgCreate.new
+    rest_class = double('rest_class')
     @rest = double('Chef::REST')
-    Chef::REST.stub(:new).and_return(@rest)
+    stub_const("Chef::REST", rest_class)
+    allow(rest_class).to receive(:new).and_return(@rest)
     @org_name = 'ss'
     @org_full_name = 'secretsauce'
   end
@@ -23,10 +25,10 @@ describe Opc::OpcOrgCreate do
   end
 
   describe 'with no org_name and org_fullname' do
-    it 'should fail with message' do
-      @knife.ui.should_receive(:fatal).with("You must specify an ORG_NAME and an ORG_FULL_NAME")
-      @knife.should_receive(:show_usage)
-      lambda { @knife.run }.should raise_error( SystemExit )
+    it 'fails with an informative message' do
+      expect(@knife.ui).to receive(:fatal).with("You must specify an ORG_NAME and an ORG_FULL_NAME")
+      expect(@knife).to receive(:show_usage)
+      expect{ @knife.run }.to raise_error(SystemExit)
     end
   end
 
@@ -35,21 +37,21 @@ describe Opc::OpcOrgCreate do
       @knife.name_args << @org_name << @org_full_name
     end
 
-    it 'should create an org' do
-      @rest.should_receive(:post_rest).with('organizations/', org_args).and_return(result)
-      @knife.ui.should_receive(:msg).with(result['private_key'])
+    it 'creates an org' do
+      expect(@rest).to receive(:post_rest).with('organizations/', org_args).and_return(result)
+      expect(@knife.ui).to receive(:msg).with(result['private_key'])
       @knife.run
     end
 
-    context 'and associate user' do
+    context 'with --assocation-user' do
       before :each do
         @knife.config[:association_user] = 'ramsay'
       end
 
-      it 'should create org and associate user' do
-        @rest.should_receive(:post_rest).with('organizations/', org_args).and_return(result)
-        @knife.ui.should_receive(:msg).with(result['private_key'])
-        @knife.should_receive(:associate_user).with('ramsay')
+      it 'creates an org and associates a user' do
+        expect(@rest).to receive(:post_rest).with('organizations/', org_args).and_return(result)
+        expect(@knife.ui).to receive(:msg).with(result['private_key'])
+        expect(@knife).to receive(:associate_user).with('ramsay')
         @knife.run
       end
     end
