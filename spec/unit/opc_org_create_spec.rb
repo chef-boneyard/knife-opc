@@ -3,10 +3,8 @@ require File.expand_path('../../spec_helper', __FILE__)
 describe Opc::OpcOrgCreate do
   before :each do
     @knife = Chef::Knife::OpcOrgCreate.new
-    rest_class = double('rest_class')
     @rest = double('Chef::REST')
-    stub_const("Chef::REST", rest_class)
-    allow(rest_class).to receive(:new).and_return(@rest)
+    allow(Chef::REST).to receive(:new).and_return(@rest)
     @org_name = 'ss'
     @org_full_name = 'secretsauce'
   end

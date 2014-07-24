@@ -11,10 +11,8 @@ describe Opc::OpcOrgList do
   end
 
   before :each do
-    rest_class = double('rest_class')
     @rest = double('Chef::REST')
-    stub_const("Chef::REST", rest_class)
-    allow(rest_class).to receive(:new).and_return(@rest)
+    allow(Chef::REST).to receive(:new).and_return(@rest)
     allow(@rest).to receive(:get_rest).with('organizations').and_return(orgs)
     @knife = Chef::Knife::OpcOrgList.new
   end
