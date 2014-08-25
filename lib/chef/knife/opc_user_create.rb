@@ -26,6 +26,11 @@ module Opc
     :short => '-f FILENAME',
     :description => 'Write private key to FILENAME rather than STDOUT'
 
+    option :orgname,
+    :long => '--orgname ORGNAME',
+    :short => '-o ORGNAME',
+    :description => 'Associate new user to an organization matching ORGNAME'
+
     def run
       case @name_args.count
       when 6
@@ -57,6 +62,12 @@ module Opc
         end
       else
         ui.msg result['private_key']
+      end
+      if config[:orgname]
+        request_body = {:user => username}
+        response = @chef_rest.post_rest "organizations/#{config[:orgname]}/association_requests", request_body
+        association_id = response["uri"].split("/").last
+        @chef_rest.put_rest "users/#{username}/association_requests/#{association_id}", { :response => 'accept' }
       end
     end
   end
