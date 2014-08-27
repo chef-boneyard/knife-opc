@@ -46,7 +46,14 @@ Add the following to your knife.rb to use the user 'pivotal':
 Note that the key for the pivotal user is in /etc/opscode on any node
 in your Chef Server cluster.  We recommend that you only use the
 pivotal user from a Chef Server itself and not copy this key off the
-machine.
+machine. In that case, you should run knife opc on the **Frontend server** as root, with a `knife.rb` in root's home directory.
+
+    current_dir = File.dirname(__FILE__)
+    log_level                :info
+    log_location             STDOUT
+    node_name                "pivotal"
+    client_key               "/etc/opscode/pivotal.pem"
+    chef_server_root         "https://chef.yourdomain.com/"
 
 # Subcommands
 
