@@ -33,7 +33,7 @@ module Opc
       @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
 
       request_body = {:user => username}
-      response = @chef_rest.post_rest "organizations/#{config[:orgname]}/association_requests", request_body
+      response = @chef_rest.post_rest "organizations/#{orgname]}/association_requests", request_body
       association_id = response["uri"].split("/").last
       @chef_rest.put_rest "users/#{username}/association_requests/#{association_id}", { :response => 'accept' }
 
