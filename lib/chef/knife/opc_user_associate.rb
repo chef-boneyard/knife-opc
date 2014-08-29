@@ -30,6 +30,7 @@ module Opc
         show_usage
         exit 1
       end
+      @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
 
       request_body = {:user => username}
       response = @chef_rest.post_rest "organizations/#{config[:orgname]}/association_requests", request_body
