@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.version = KnifeOPC::VERSION
   s.platform = Gem::Platform::RUBY
   s.extra_rdoc_files = ["README.md", "LICENSE" ]
-  s.summary = "Knife Tools for Opscode Private Chef"
+  s.summary = "Knife Tools for Opscode Chef Server"
   s.description = s.summary
   s.author = "Steven Danna"
   s.email = "steve@opscode.com"
