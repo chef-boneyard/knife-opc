@@ -16,7 +16,7 @@ This knife plugin is packaged as a gem.  To install it, clone the
 git repository and run the following:
 
     gem build knife-opc.gemspec
-    gem install knife-opc-0.0.1.gem
+    gem install knife-opc-0.1.0.gem
 
 # Configuration
 
@@ -111,6 +111,17 @@ validator client is returned.
 ## knife opc org delete ORG_NAME
 
 Deletes the given OPC user.
+
+## knife opc associate ORGNAME USERNAME
+
+Associates a user with an organization.  Requires that the named
+organization and user both exist.
+
+## knife opc disassociate ORGNAME USERNAME
+
+Dissociates a user with an organization.  Requires that the named
+organization and user both exist, and that the user is currently
+associated with the organization.
 
 # KNOWN ISSUES
 
