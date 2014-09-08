@@ -16,7 +16,7 @@ This knife plugin is packaged as a gem.  To install it, clone the
 git repository and run the following:
 
     gem build knife-opc.gemspec
-    gem install knife-opc-0.0.1.gem
+    gem install knife-opc-0.1.1.gem
 
 # Configuration
 
