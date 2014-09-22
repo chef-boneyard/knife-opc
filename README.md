@@ -110,14 +110,14 @@ validator client is returned.
 
 ## knife opc org delete ORG_NAME
 
-Deletes the given OPC user.
+Deletes the given OPC organization.
 
-## knife opc associate ORGNAME USERNAME
+## knife opc org associate ORGNAME USERNAME
 
 Associates a user with an organization.  Requires that the named
 organization and user both exist.
 
-## knife opc disassociate ORGNAME USERNAME
+## knife opc org disassociate ORGNAME USERNAME
 
 Dissociates a user with an organization.  Requires that the named
 organization and user both exist, and that the user is currently
