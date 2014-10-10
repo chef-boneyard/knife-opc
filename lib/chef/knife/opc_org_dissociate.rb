@@ -40,7 +40,7 @@ module Opc
         org.dissociate_user(@username)
       rescue Net::HTTPServerException => e
         if e.response.code == "404"
-          ui.puts "User #{username} is not associated with organization #{org_name}"
+          ui.msg "User #{username} is not associated with organization #{org_name}"
           exit 1
         else
           raise e
