@@ -2,9 +2,12 @@ require File.expand_path('../../spec_helper', __FILE__)
 
 describe Opc::OpcOrgCreate do
   before :each do
+    Chef::Knife::OpcOrgCreate.load_deps
     @knife = Chef::Knife::OpcOrgCreate.new
-    @rest = double('Chef::REST')
-    allow(Chef::REST).to receive(:new).and_return(@rest)
+    @org = double('Chef::Org')
+    allow(Chef::Org).to receive(:new).and_return(@org)
+    @key = "You don't come into cooking to get rich - Ramsay"
+    allow(@org).to receive(:private_key).and_return(@key)
     @org_name = 'ss'
     @org_full_name = 'secretsauce'
   end
@@ -13,12 +16,6 @@ describe Opc::OpcOrgCreate do
     {
       :name => @org_name,
       :full_name => @org_full_name
-    }
-  end
-
-  let(:result) do
-    {
-      :private_key => "You don't come into cooking to get rich - Ramsay"
     }
   end
 
@@ -36,8 +33,10 @@ describe Opc::OpcOrgCreate do
     end
 
     it 'creates an org' do
-      expect(@rest).to receive(:post_rest).with('organizations/', org_args).and_return(result)
-      expect(@knife.ui).to receive(:msg).with(result['private_key'])
+      expect(@org).to receive(:create).and_return(@org)
+      expect(@org).to receive(:name).with('ss')
+      expect(@org).to receive(:full_name).with('secretsauce')
+      expect(@knife.ui).to receive(:msg).with(@key)
       @knife.run
     end
 
@@ -46,10 +45,14 @@ describe Opc::OpcOrgCreate do
         @knife.config[:association_user] = 'ramsay'
       end
 
-      it 'creates an org and associates a user' do
-        expect(@rest).to receive(:post_rest).with('organizations/', org_args).and_return(result)
-        expect(@knife.ui).to receive(:msg).with(result['private_key'])
-        expect(@knife).to receive(:associate_user).with('ramsay')
+      it 'creates an org, associates a user, and adds it to the admins group' do
+        expect(@org).to receive(:name).with('ss')
+        expect(@org).to receive(:full_name).with('secretsauce')
+        expect(@org).to receive(:create).and_return(@org)
+        expect(@org).to receive(:associate_user).with('ramsay')
+        expect(@org).to receive(:add_user_to_group).with('admins', 'ramsay')
+        expect(@org).to receive(:add_user_to_group).with('billing-admins', 'ramsay')
+        expect(@knife.ui).to receive(:msg).with(@key)
         @knife.run
       end
     end

@@ -22,6 +22,10 @@ module Opc
     banner "knife opc org dissociate ORG_NAME USER_NAME"
     attr_accessor :org_name, :username
 
+    deps do
+      require 'chef/org'
+    end
+
     def run
       @org_name, @username = @name_args
 
@@ -31,12 +35,16 @@ module Opc
         exit 1
       end
 
-      @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
-      response = @chef_rest.delete_rest "organizations/#{org_name}/users/#{username}"
-      if response["error"]
-        ui.msg response["error"]
-      else
-        ui.msg "User #{username} has been dissociated from organization #{org_name}"
+      org = Chef::Org.new(@org_name)
+      begin
+        org.dissociate_user(@username)
+      rescue Net::HTTPServerException => e
+        if e.response.code == "404"
+          ui.puts "User #{username} is not associated with organization #{org_name}"
+          exit 1
+        else
+          raise e
+        end
       end
     end
   end

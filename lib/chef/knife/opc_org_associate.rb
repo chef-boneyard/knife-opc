@@ -22,6 +22,15 @@ module Opc
     banner "knife opc org associate ORG_NAME USER_NAME"
     attr_accessor :org_name, :username
 
+    option :admin,
+    :long => '--admin',
+    :short => '-a',
+    :description => 'Add user to admin group'
+
+    deps do
+      require 'chef/org'
+    end
+
     def run
       @org_name, @username = @name_args
 
@@ -31,20 +40,18 @@ module Opc
         exit 1
       end
 
-      @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
-      request_body = {:user => username}
-      response = @chef_rest.post_rest "organizations/#{org_name}/association_requests", request_body
-      if response["error"]
-        ui.msg response["error"]
-      else
-        association_id = response["uri"].split("/").last
-        response = @chef_rest.put_rest "users/#{username}/association_requests/#{association_id}", { :response => 'accept' }
-        if response["error"]
-          ui.msg response["error"]
+      org = Chef::Org.new(@org_name)
+      begin
+        org.associate_user(@username)
+      rescue Net::HTTPServerException => e
+        if e.response.code == "409"
+          ui.puts "User #{username} already associated with organization #{org_name}"
+          exit 1
         else
-          ui.msg "User #{username} is now associated with organization #{org_name}"
+          raise e
         end
       end
+      org.add_user_to_group('admins', @username) if config[:admin]
     end
   end
 end
