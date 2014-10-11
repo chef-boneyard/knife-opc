@@ -46,7 +46,6 @@ module Opc
       rescue Net::HTTPServerException => e
         if e.response.code == "409"
           ui.msg "User #{username} already associated with organization #{org_name}"
-          exit 1
         else
           raise e
         end
