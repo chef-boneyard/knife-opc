@@ -33,6 +33,10 @@ module Opc
 
     attr_accessor :org_name, :org_full_name
 
+    deps do
+      require 'chef/org'
+    end
+
     def run
       @org_name, @org_full_name = @name_args
 
@@ -42,45 +46,21 @@ module Opc
         exit 1
       end
 
-      org_args = { :name => org_name, :full_name => org_full_name}
-      @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
-      result = @chef_rest.post_rest("organizations/", org_args)
+      org = Chef::Org.from_hash({ 'name' => org_name,
+                                  'full_name' => org_full_name}).create
       if config[:filename]
         File.open(config[:filename], "w") do |f|
-          f.print(result['private_key'])
+          f.print(org.private_key)
         end
       else
-        ui.msg result['private_key']
+        ui.msg org.private_key
       end
-      associate_user config[:association_user] if config[:association_user]
-    end
 
-    def associate_user(username)
-
-      # First, create and accept the organization invite
-      request_body = {:user => username}
-      response = @chef_rest.post_rest "organizations/#{org_name}/association_requests", request_body
-      association_id = response["uri"].split("/").last
-      @chef_rest.put_rest "users/#{username}/association_requests/#{association_id}", { :response => 'accept' }
-
-      # Next, add the user to the admin and billing-admin group
-      add_user_to_group(username, "admins")
-      add_user_to_group(username, "billing-admins")
-    end
-
-
-    # Note, this should *really* use the same method
-    # used in knife-acl
-    def add_user_to_group(username, groupname)
-      group = @chef_rest.get_rest "organizations/#{org_name}/groups/#{groupname}"
-      body_hash = {
-        :groupname => "#{groupname}",
-        :actors => {
-          "users" => group["actors"].concat([username]),
-          "groups" => group["groups"]
-        }
-      }
-      @chef_rest.put_rest "organizations/#{org_name}/groups/#{groupname}", body_hash
+      if config[:association_user]
+        org.associate_user(config[:association_user])
+        org.add_user_to_group('admins', config[:association_user])
+        org.add_user_to_group('billing-admins', config[:association_user])
+      end
     end
   end
 end
