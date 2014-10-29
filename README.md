@@ -12,11 +12,9 @@ Enterprise Chef (formerly Opscode Private Chef).
 
 # Installation
 
-This knife plugin is packaged as a gem.  To install it, clone the
-git repository and run the following:
+This knife plugin is packaged as a gem.  To install it run:
 
-    gem build knife-opc.gemspec
-    gem install knife-opc-0.1.1.gem
+    chef gem install knife-opc
 
 # Configuration
 
