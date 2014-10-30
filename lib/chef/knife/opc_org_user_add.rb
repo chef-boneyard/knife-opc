@@ -17,10 +17,15 @@
 #
 
 module Opc
-  class OpcOrgDissociate < Chef::Knife
+  class OpcOrgUserAdd < Chef::Knife
     category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
-    banner "knife opc org dissociate ORG_NAME USER_NAME"
+    banner "knife opc org user add ORG_NAME USER_NAME"
     attr_accessor :org_name, :username
+
+    option :admin,
+    :long => '--admin',
+    :short => '-a',
+    :description => 'Add user to admin group'
 
     deps do
       require 'chef/org'
@@ -37,15 +42,15 @@ module Opc
 
       org = Chef::Org.new(@org_name)
       begin
-        org.dissociate_user(@username)
+        org.associate_user(@username)
       rescue Net::HTTPServerException => e
-        if e.response.code == "404"
-          ui.msg "User #{username} is not associated with organization #{org_name}"
-          exit 1
+        if e.response.code == "409"
+          ui.msg "User #{username} already associated with organization #{org_name}"
         else
           raise e
         end
       end
+      org.add_user_to_group('admins', @username) if config[:admin]
     end
   end
 end
