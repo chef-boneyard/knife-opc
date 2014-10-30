@@ -112,14 +112,14 @@ validator client is returned.
 
 Deletes the given OPC user.
 
-## knife opc associate ORGNAME USERNAME
+## knife opc org user add ORGNAME USERNAME
 
-Associates a user with an organization.  Requires that the named
-organization and user both exist.
+Adds a user to an organization.  Requires that the named organization
+and user both exist.
 
-## knife opc disassociate ORGNAME USERNAME
+## knife opc org user remove ORGNAME USERNAME
 
-Dissociates a user with an organization.  Requires that the named
+Removes a user from an organization.  Requires that the named
 organization and user both exist, and that the user is currently
 associated with the organization.
 
@@ -134,7 +134,6 @@ associated with the organization.
 # TODO
 
 * `--with-users` option for `org show` subcommand.
-* Filter unused fields from `org show`.
 
 ## License ##
 
