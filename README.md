@@ -105,6 +105,12 @@ Deletes the given OPC user.
 
 Will open $EDITOR. When finished, Knife will update the given OPC user.
 
+## knife opc user password USERNAME [PASSWORD | --enable_external_auth]
+
+Command for managing password and authentication for a user.
+
+The last argument should either be a string you want the password to or you can pass --enable_external_auth instead of a password to enable external authentication for this user.
+
 ## knife opc org list
 
   * `-w`, `--with-uri`:
