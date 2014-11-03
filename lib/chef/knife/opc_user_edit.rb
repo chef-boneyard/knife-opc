@@ -38,6 +38,7 @@ module Opc
         ui.msg edited_user
         result = @chef_rest.put_rest("users/#{user_name}", edited_user)
         ui.msg("Saved #{user_name}.")
+        ui.msg(result['private_key']) if edited_user['private_key'].eql?(true)
       else
         ui.msg("User unchaged, not saving.")
       end
