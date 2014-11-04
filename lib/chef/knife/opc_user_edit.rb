@@ -43,7 +43,7 @@ module Opc
         ui.msg edited_user
         result = @chef_rest.put_rest("users/#{user_name}", edited_user)
         ui.msg("Saved #{user_name}.")
-        if edited_user['private_key'].eql?(true)
+        if ! result['private_key'].nil?
           if config[:filename]
             File.open(config[:filename], "w") do |f|
               f.print(result['private_key'])
