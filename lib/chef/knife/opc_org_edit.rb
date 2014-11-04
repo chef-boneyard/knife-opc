@@ -33,15 +33,16 @@ module Opc
       @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
       original_org =  @chef_rest.get_rest("organizations/#{org_name}")
       edited_org = edit_data(original_org)
-      if original_org != edited_org
-        @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
-        ui.msg edited_org
-        result = @chef_rest.put_rest("organizations/#{org_name}", edited_org)
-        ui.msg("Saved #{org_name}.")
-      else
-        ui.msg("Organization unchaged, not saving.")
+
+      if original_org == edited_org
+        ui.msg("Organization unchanged, not saving.")
+        exit
       end
 
+      @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
+      ui.msg edited_org
+      result = @chef_rest.put_rest("organizations/#{org_name}", edited_org)
+      ui.msg("Saved #{org_name}.")
     end
   end
 end
