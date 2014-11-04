@@ -47,8 +47,8 @@ of your OPC installation:
     chef_server_root https://chef.yourdomain.com/
 
 Note that most users in an OPC installation lack the permissions to
-run most of the commands from this plugin.  Note that the majority of
-the command provided by this plugin can be accessed via
+run most of the commands from this plugin.  On Chef Server 12, the
+majority of the commands provided by this plugin can be accessed via
 `chef-server-ctl` wrapper commands that properly configure knife-opc
 for administrative action.  We recommend you use the wrapper commands
 whenever possible
