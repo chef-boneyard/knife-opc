@@ -8,7 +8,7 @@
 # Description
 
 This knife plugin supports basic organization and user operations in
-Enterprise Chef (formerly Opscode Private Chef).
+Enterprise Chef (formerly Opscode Private Chef) and Chef Server 12.
 
 # Installation
 
