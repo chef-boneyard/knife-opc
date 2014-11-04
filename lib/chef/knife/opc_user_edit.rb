@@ -40,7 +40,6 @@ module Opc
       edited_user = edit_data(original_user)
       if original_user != edited_user
         @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
-        ui.msg edited_user
         result = @chef_rest.put_rest("users/#{user_name}", edited_user)
         ui.msg("Saved #{user_name}.")
         if ! result['private_key'].nil?
