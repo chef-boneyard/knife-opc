@@ -20,6 +20,11 @@ module Opc
   class OpcUserEdit < Chef::Knife
     category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
     banner "knife opc user edit USERNAME"
+    
+    option :input,
+    :long => '--input FILENAME',
+    :short => '-i FILENAME',
+    :description => 'Name of file to use for PUT or POST'
 
     option :filename,
     :long => '--filename FILENAME',
@@ -37,7 +42,11 @@ module Opc
 
       @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
       original_user =  @chef_rest.get_rest("users/#{user_name}")
-      edited_user = edit_data(original_user)
+      if config[:input]
+        edited_user = JSON.parse(IO.read(config[:input]))
+      else
+        edited_user = edit_data(original_user)
+      end
       if original_user != edited_user
         @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
         result = @chef_rest.put_rest("users/#{user_name}", edited_user)
