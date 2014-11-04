@@ -110,7 +110,7 @@ validator client is returned.
 
 ## knife opc org delete ORG_NAME
 
-Deletes the given OPC user.
+Deletes the given OPC organization.
 
 ## knife opc org user add ORGNAME USERNAME
 
