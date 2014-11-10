@@ -20,6 +20,11 @@ module Opc
   class OpcUserEdit < Chef::Knife
     category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
     banner "knife opc user edit USERNAME"
+    
+    option :filename,
+    :long => '--filename FILENAME',
+    :short => '-f FILENAME',
+    :description => 'Write private key to FILENAME rather than STDOUT'
 
     def run
       user_name = @name_args[0]
@@ -35,9 +40,17 @@ module Opc
       edited_user = edit_data(original_user)
       if original_user != edited_user
         @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
-        ui.msg edited_user
         result = @chef_rest.put_rest("users/#{user_name}", edited_user)
         ui.msg("Saved #{user_name}.")
+        if ! result['private_key'].nil?
+          if config[:filename]
+            File.open(config[:filename], "w") do |f|
+              f.print(result['private_key'])
+            end
+          else
+            ui.msg result['private_key']
+          end
+        end
       else
         ui.msg("User unchaged, not saving.")
       end
