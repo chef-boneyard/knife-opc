@@ -151,6 +151,12 @@ Removes a user from an organization.  Requires that the named
 organization and user both exist, and that the user is currently
 associated with the organization.
 
+## knife opc org user group add ORGNAME USERNAME GROUPNAME
+
+Adds a user to a group in an organization. Requires that the named
+organization, user, and group all exist, and that the user is currently
+associated with the organization.
+
 # KNOWN ISSUES
 
 * Attempting to delete and immediately recreate an organization will
