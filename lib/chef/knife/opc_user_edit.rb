@@ -20,7 +20,7 @@ module Opc
   class OpcUserEdit < Chef::Knife
     category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
     banner "knife opc user edit USERNAME"
-    
+
     option :filename,
     :long => '--filename FILENAME',
     :short => '-f FILENAME',
@@ -52,7 +52,7 @@ module Opc
           end
         end
       else
-        ui.msg("User unchaged, not saving.")
+        ui.msg("User unchanged, not saving.")
       end
 
     end
