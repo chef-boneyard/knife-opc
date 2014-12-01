@@ -54,6 +54,15 @@ module Opc
         :password =>     password
       }
 
+     # Check the file before creating the user so the api is more transactional.
+     if config[:filename]
+       file = config[:filename]
+       unless File.exists?(file) ? File.writable?(file) : File.writable?(File.dirname(file))
+         ui.fatal "File #{config[:filename]} is not writable.  Check permissions."
+         exit 1
+       end
+     end
+
       @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
       result = @chef_rest.post_rest("users/", user_hash)
       if config[:filename]
