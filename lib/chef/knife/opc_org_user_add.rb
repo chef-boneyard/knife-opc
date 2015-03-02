@@ -50,7 +50,10 @@ module Opc
           raise e
         end
       end
-      org.add_user_to_group('admins', @username) if config[:admin]
+      if config[:admin]
+        org.add_user_to_group('admins', @username)
+        org.add_user_to_group('billing-admins', @username)
+      end
     end
   end
 end
