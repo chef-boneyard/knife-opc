@@ -35,6 +35,7 @@ module Opc
 
     deps do
       require 'chef/org'
+      require 'chef/org/group_operations'
     end
 
     def run

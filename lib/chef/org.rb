@@ -1,11 +1,13 @@
 require 'chef/json_compat'
 require 'chef/mixin/params_validate'
 require 'chef/rest'
+require 'chef/org/group_operations'
 
 class Chef
   class Org
 
     include Chef::Mixin::ParamsValidate
+    include Chef::Org::GroupOperations
 
     def initialize(name='')
       @name = name
@@ -91,18 +93,6 @@ class Chef
 
     def dissociate_user(username)
       chef_rest.delete_rest "organizations/#{name}/users/#{username}"
-    end
-
-    def add_user_to_group(groupname, username)
-      group = chef_rest.get_rest "organizations/#{name}/groups/#{groupname}"
-      body_hash = {
-        :groupname => "#{groupname}",
-        :actors => {
-          "users" => group["actors"].concat([username]),
-          "groups" => group["groups"]
-        }
-      }
-      chef_rest.put_rest "organizations/#{name}/groups/#{groupname}", body_hash
     end
 
     # Class methods
