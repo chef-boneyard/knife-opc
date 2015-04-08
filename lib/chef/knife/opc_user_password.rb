@@ -19,7 +19,7 @@
 module Opc
   class OpcUserPassword < Chef::Knife
     category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
-    banner "knife opc user password USERNAME [PASSWORD | --enable_external_auth]"
+    banner "knife opc user password USERNAME [PASSWORD | --enable-external-auth]"
 
     option :enable_external_auth,
     :long => "--enable-external-auth",
