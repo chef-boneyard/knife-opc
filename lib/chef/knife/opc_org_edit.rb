@@ -15,6 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+require 'chef/mixin/root_rest'
 
 module Opc
   class OpcOrgEdit < Chef::Knife
@@ -30,8 +31,9 @@ module Opc
         exit 1
       end
 
-      @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
-      original_org =  @chef_rest.get_rest("organizations/#{org_name}")
+      include Chef::Mixin::RootRestv0
+
+      original_org =  root_rest.get("organizations/#{org_name}")
       edited_org = edit_data(original_org)
 
       if original_org == edited_org
@@ -39,9 +41,8 @@ module Opc
         exit
       end
 
-      @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
       ui.msg edited_org
-      result = @chef_rest.put_rest("organizations/#{org_name}", edited_org)
+      root_rest.put("organizations/#{org_name}", edited_org)
       ui.msg("Saved #{org_name}.")
     end
   end

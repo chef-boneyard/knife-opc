@@ -15,6 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+require 'chef/mixin/root_rest'
 
 module Opc
   class OpcUserDelete < Chef::Knife
@@ -26,18 +27,19 @@ module Opc
     :short => "-d",
     :description => "Don't disassociate the user first"
 
+    include Chef::Mixin::RootRestv0
+
     def run
       username = @name_args[0]
-      @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
       ui.confirm "Do you want to delete the user #{username}"
       unless config[:no_disassociate_user]
-         orgs =  @chef_rest.get_rest("users/#{username}/organizations")
+         orgs =  root_rest.get("users/#{username}/organizations")
          org_names = orgs.map {|o| o['organization']['name']}
          org_names.each do |org|
-            ui.output @chef_rest.delete_rest("organizations/#{org}/users/#{username}")
+            ui.output root_rest.delete("organizations/#{org}/users/#{username}")
          end
       end
-      ui.output @chef_rest.delete_rest("users/#{username}")
+      ui.output root_rest.delete("users/#{username}")
     end
   end
 end
