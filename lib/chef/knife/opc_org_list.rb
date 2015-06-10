@@ -15,6 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+require 'chef/mixin/root_rest'
 
 module Opc
   class OpcOrgList < Chef::Knife
@@ -31,10 +32,11 @@ module Opc
     :short => "-a",
     :description => "Show auto-generated hidden orgs in output"
 
+    include Chef::Mixin::RootRestv0
+
     def run
-      @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
-      results =  @chef_rest.get_rest("organizations")
-      unless config[:all_orgs] 
+      results =  root_rest.get("organizations")
+      unless config[:all_orgs]
         results = results.select { |k,v| !(k.length == 20 && k =~ /^[a-z]+$/) }
       end
       ui.output(ui.format_list_for_display(results))

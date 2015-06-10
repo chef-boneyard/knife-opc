@@ -15,6 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+require 'chef/mixin/root_rest'
 
 module Opc
   class OpcUserShow < Chef::Knife
@@ -25,12 +26,13 @@ module Opc
     :long => "--with-orgs",
     :short => "-l"
 
+    include Chef::Mixin::RootRestv0
+
     def run
       user_name = @name_args[0]
-      @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
-      results =  @chef_rest.get_rest("users/#{user_name}")
+      results =  root_rest.get("users/#{user_name}")
       if config[:with_orgs]
-        orgs =  @chef_rest.get_rest("users/#{user_name}/organizations")
+        orgs =  root_rest.get("users/#{user_name}/organizations")
         results["organizations"] = orgs.map {|o| o['organization']['name']}
       end
       ui.output results

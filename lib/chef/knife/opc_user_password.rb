@@ -15,6 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+require 'chef/mixin/root_rest'
 
 module Opc
   class OpcUserPassword < Chef::Knife
@@ -25,6 +26,8 @@ module Opc
     :long => "--enable-external-auth",
     :short => "-e",
     :description => "Enable external authentication for this user (such as LDAP)"
+
+    include Chef::Mixin::RootRestv0
 
     def run
       # check that correct number of args was passed, should be either
@@ -43,13 +46,11 @@ module Opc
       # note that this will be nil if config[:enable_external_auth] is true
       password = @name_args[1]
 
-      @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
-
       # since the API does not pass back whether recovery_authentication_enabled is
       # true or false, there is no way of knowing if the user is using ldap or not,
       # so we will update the user every time, instead of checking if we are actually
       # changing anything before we PUT.
-      user =  @chef_rest.get_rest("users/#{user_name}")
+      user =  root_rest.get("users/#{user_name}")
 
       user["password"] = password if not password.nil?
 
@@ -59,9 +60,8 @@ module Opc
       # wants to disable ldap and put user in recover (if they are using ldap).
       user["recovery_authentication_enabled"] = !config[:enable_external_auth]
 
-      @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
       begin
-        result = @chef_rest.put_rest("users/#{user_name}", user)
+        root_rest.put("users/#{user_name}", user)
       rescue => e
         raise e
         exit 1

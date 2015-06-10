@@ -1,6 +1,6 @@
 #
-# Author:: Steven Danna (<steve@opscode.com>)
-# Copyright:: Copyright 2011 Opscode, Inc.
+# Author:: Steven Danna (<steve@chef.io>)
+# Copyright:: Copyright 2011 Chef Software, Inc
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,23 +15,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require 'chef/mixin/root_rest'
-
-module Opc
-  class OpcUserList < Chef::Knife
-    category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
-    banner "knife opc user list"
-
-    option :with_uri,
-    :long => "--with-uri",
-    :short => "-w",
-    :description => "Show corresponding URIs"
-
-    include Chef::Mixin::RootRestv0
-
-    def run
-      results = root_rest.get("users")
-      ui.output(ui.format_list_for_display(results))
+require 'chef/server_api'
+class Chef
+  module Mixin
+    module RootRestv0
+      def root_rest
+        # Use v0 API for now
+        # Rather than upgrade all of this code to move to v1, the goal is to remove the
+        # need for this plugin.  See
+        # https://github.com/chef/chef/issues/3517
+        @root_rest ||= Chef::ServerAPI.new(Chef::Config[:chef_server_root], {:api_version => "0"})
+      end
     end
   end
 end

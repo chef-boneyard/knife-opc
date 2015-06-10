@@ -11,9 +11,9 @@ describe Opc::OpcOrgList do
   end
 
   before :each do
-    @rest = double('Chef::REST')
-    allow(Chef::REST).to receive(:new).and_return(@rest)
-    allow(@rest).to receive(:get_rest).with('organizations').and_return(orgs)
+    @rest = double('Chef::ServerAPI')
+    allow(Chef::ServerAPI).to receive(:new).and_return(@rest)
+    allow(@rest).to receive(:get).with('organizations').and_return(orgs)
     @knife = Chef::Knife::OpcOrgList.new
   end
 

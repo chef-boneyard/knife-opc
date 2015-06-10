@@ -15,16 +15,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+require 'chef/mixin/root_rest'
 
 module Opc
   class OpcOrgShow < Chef::Knife
     category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
     banner "knife opc org show ORGNAME"
 
+    include Chef::Mixin::RootRestv0
+
     def run
       org_name = @name_args[0]
-      @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
-      ui.output @chef_rest.get_rest("organizations/#{org_name}")
+      ui.output root_rest.get("organizations/#{org_name}")
     end
   end
 end

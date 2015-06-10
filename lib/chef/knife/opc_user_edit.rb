@@ -15,12 +15,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+require 'chef/mixin/root_rest'
 
 module Opc
   class OpcUserEdit < Chef::Knife
     category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
     banner "knife opc user edit USERNAME"
-    
+
     option :input,
     :long => '--input FILENAME',
     :short => '-i FILENAME',
@@ -31,6 +32,8 @@ module Opc
     :short => '-f FILENAME',
     :description => 'Write private key to FILENAME rather than STDOUT'
 
+    include Chef::Mixin::RootRestv0
+
     def run
       user_name = @name_args[0]
 
@@ -40,16 +43,14 @@ module Opc
         exit 1
       end
 
-      @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
-      original_user =  @chef_rest.get_rest("users/#{user_name}")
+      original_user =  root_rest.get("users/#{user_name}")
       if config[:input]
         edited_user = JSON.parse(IO.read(config[:input]))
       else
         edited_user = edit_data(original_user)
       end
       if original_user != edited_user
-        @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
-        result = @chef_rest.put_rest("users/#{user_name}", edited_user)
+        result = root_rest.put("users/#{user_name}", edited_user)
         ui.msg("Saved #{user_name}.")
         if ! result['private_key'].nil?
           if config[:filename]

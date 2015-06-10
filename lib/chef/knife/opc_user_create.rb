@@ -15,6 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+require 'chef/mixin/root_rest'
 
 module Opc
   class OpcUserCreate < Chef::Knife
@@ -30,6 +31,8 @@ module Opc
     :long => '--orgname ORGNAME',
     :short => '-o ORGNAME',
     :description => 'Associate new user to an organization matching ORGNAME'
+
+    include Chef::Mixin::RootRestv0
 
     def run
       case @name_args.count
@@ -63,8 +66,7 @@ module Opc
        end
      end
 
-      @chef_rest = Chef::REST.new(Chef::Config[:chef_server_root])
-      result = @chef_rest.post_rest("users/", user_hash)
+      result = root_rest.post("users/", user_hash)
       if config[:filename]
         File.open(config[:filename], "w") do |f|
           f.print(result['private_key'])
@@ -74,9 +76,9 @@ module Opc
       end
       if config[:orgname]
         request_body = {:user => username}
-        response = @chef_rest.post_rest "organizations/#{config[:orgname]}/association_requests", request_body
+        response = root_rest.post("organizations/#{config[:orgname]}/association_requests", request_body)
         association_id = response["uri"].split("/").last
-        @chef_rest.put_rest "users/#{username}/association_requests/#{association_id}", { :response => 'accept' }
+        root_rest.put("users/#{username}/association_requests/#{association_id}", {:response => 'accept'})
       end
     end
   end
