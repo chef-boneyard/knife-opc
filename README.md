@@ -27,7 +27,7 @@ To install the latest development version:
     git clone https://github.com/opscode/knife-opc.git
     cd knife-opc
     gem build knife-opc.gemspec
-    gem install knife-opc-0.1.1.gem
+    gem install knife-opc-0.3.2.gem
 
 # Configuration
 
