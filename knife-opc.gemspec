@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.description = s.summary
   s.author = "Steven Danna"
   s.email = "steve@opscode.com"
-  s.homepage = "http://wiki.opscode.com/display/chef"
+  s.homepage = "https://github.com/chef/knife-opc"
   s.require_path = 'lib'
   s.files = %w(LICENSE README.md) + Dir.glob("lib/**/*")
 
