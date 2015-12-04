@@ -22,8 +22,15 @@ module Opc
     banner "knife opc org user remove ORG_NAME USER_NAME"
     attr_accessor :org_name, :username
 
+    option :force_remove_from_admins,
+    :long => '--force',
+    :short => '-f',
+    :description => "Force removal of user from the organization's admins and billing-admins group."
+
     deps do
       require 'chef/org'
+      require 'chef/org/group_operations'
+      require 'chef/json_compat'
     end
 
     def run
@@ -36,16 +43,50 @@ module Opc
       end
 
       org = Chef::Org.new(@org_name)
+
+      if config[:force_remove_from_admins]
+        remove_user_from_admin_group(org, org_name, username, "admins")
+        remove_user_from_admin_group(org, org_name, username, "billing-admins")
+      end
+
       begin
         org.dissociate_user(@username)
       rescue Net::HTTPServerException => e
         if e.response.code == "404"
           ui.msg "User #{username} is not associated with organization #{org_name}"
           exit 1
+        elsif e.response.code == "403"
+          body = Chef::JSONCompat.from_json(e.response.body)
+          if body.has_key?("error") && body["error"] == "Please remove #{username} from this organization's admins group before removing him or her from the organization."
+            ui.error "Error removing user #{username} from organization #{org_name}."
+            ui.msg <<-EOF
+User #{username} is in the organization's admin group. Removing users from an organization without removing them from the admins group is not allowed.
+Re-run this command with --force to remove this user from the admins prior to removing it from the organization.
+EOF
+            exit 1
+          else
+            raise e
+          end
         else
           raise e
         end
       end
     end
+
+    def remove_user_from_admin_group(org, org_name, username, admin_group_string)
+      begin
+        org.remove_user_from_group(admin_group_string, username)
+      rescue Net::HTTPServerException => e
+        if e.response.code == "404"
+          ui.warn <<-EOF
+User #{username} is not in the #{admin_group_string} group for organization #{org_name}.
+You probably don't need to pass --force.
+EOF
+        else
+          raise e
+        end
+      end
+    end
+
   end
 end
