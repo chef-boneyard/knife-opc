@@ -27,18 +27,36 @@ module Opc
     :short => "-d",
     :description => "Don't disassociate the user first"
 
+    deps do
+      require 'chef/json_compat'
+    end
+
     include Chef::Mixin::RootRestv0
 
     def run
       username = @name_args[0]
       ui.confirm "Do you want to delete the user #{username}"
+
       unless config[:no_disassociate_user]
-         orgs =  root_rest.get("users/#{username}/organizations")
-         org_names = orgs.map {|o| o['organization']['name']}
-         org_names.each do |org|
+        orgs = root_rest.get("users/#{username}/organizations")
+        org_names = orgs.map {|o| o['organization']['name']}
+        org_names.each do |org|
+          begin
             ui.output root_rest.delete("organizations/#{org}/users/#{username}")
-         end
+          rescue Net::HTTPServerException => e
+            body = Chef::JSONCompat.from_json(e.response.body)
+            if e.response.code == "403" && body["error"] == "Please remove #{username} from this organization's admins group before removing him or her from the organization."
+              ui.error "Error removing user #{username} from org #{org} due to user being in that org's admins group."
+              ui.msg "Please remove #{username} from the admins group for #{org} before deleting the user."
+              ui.msg "This can be accomplished by passing --force to the org user remove command."
+              exit 1
+            else
+              raise e
+            end
+          end
+        end
       end
+
       ui.output root_rest.delete("users/#{username}")
     end
   end
