@@ -45,6 +45,15 @@ module Opc
       org = Chef::Org.new(@org_name)
 
       if config[:force_remove_from_admins]
+        if org.actor_delete_would_leave_admins_empty?
+          failure_error_message(org_name, username)
+          ui.msg <<-EOF
+You ran with --force which force removes the user from the admins and billing-admins groups.
+However, removing #{username} from the admins group would leave it empty, which breaks the org.
+Please add another user to org #{org_name} admins group and try again.
+EOF
+          exit 1
+        end
         remove_user_from_admin_group(org, org_name, username, "admins")
         remove_user_from_admin_group(org, org_name, username, "billing-admins")
       end
@@ -58,7 +67,7 @@ module Opc
         elsif e.response.code == "403"
           body = Chef::JSONCompat.from_json(e.response.body)
           if body.has_key?("error") && body["error"] == "Please remove #{username} from this organization's admins group before removing him or her from the organization."
-            ui.error "Error removing user #{username} from organization #{org_name}."
+            failure_error_message(org_name, username)
             ui.msg <<-EOF
 User #{username} is in the organization's admin group. Removing users from an organization without removing them from the admins group is not allowed.
 Re-run this command with --force to remove this user from the admins prior to removing it from the organization.
@@ -71,6 +80,10 @@ EOF
           raise e
         end
       end
+    end
+
+    def failure_error_message(org_name, username)
+      ui.error "Error removing user #{username} from organization #{org_name}."
     end
 
     def remove_user_from_admin_group(org, org_name, username, admin_group_string)
