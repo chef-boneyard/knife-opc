@@ -1,6 +1,6 @@
 #
-# Author:: Steven Danna (<steve@chef.io>)
-# Copyright:: Copyright 2011-2016 Chef Software, Inc.
+# Author:: Steven Danna (<steve@opscode.com>)
+# Copyright:: Copyright 2011 Opscode, Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,130 +15,42 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require_relative "../mixin/root_rest"
+require 'chef/mixin/root_rest'
 
 module Opc
   class OpcUserDelete < Chef::Knife
-    category "CHEF ORGANIZATION MANAGEMENT"
-    banner "knife opc user delete USERNAME [-d] [-R]"
-
-    option :no_disassociate_user,
-      long: "--no-disassociate-user",
-      short: "-d",
-      description: "Don't disassociate the user first"
-
-    option :remove_from_admin_groups,
-      long:  "--remove-from-admin-groups",
-      short:  "-R",
-      description: "If the user is a member of any org admin groups, attempt to remove from those groups. Ignored if --no-disassociate-user is set."
-
-    attr_reader :username
-    include Chef::Mixin::RootRestv0
+    category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
+    banner "knife opc user delete USERNAME"
 
     deps do
-      require_relative "../org"
-      require_relative "../org/group_operations"
+      require 'chef/json_compat'
     end
+
+    include Chef::Mixin::RootRestv0
 
     def run
-      @username = @name_args[0]
-      admin_memberships = []
-      unremovable_memberships = []
-
+      username = @name_args[0]
       ui.confirm "Do you want to delete the user #{username}"
 
-      unless config[:no_disassociate_user]
-        ui.stderr.puts("Checking organization memberships...")
-        orgs = org_memberships(username)
-        if orgs.length > 0
-          ui.stderr.puts("Checking admin group memberships for #{orgs.length} org(s).")
-          admin_memberships, unremovable_memberships = admin_group_memberships(orgs, username)
-        end
-
-        unless admin_memberships.empty?
-          unless config[:remove_from_admin_groups]
-            error_exit_admin_group_member!(username, admin_memberships)
-          end
-
-          unless unremovable_memberships.empty?
-            error_exit_cant_remove_admin_membership!(username, unremovable_memberships)
-          end
-          remove_from_admin_groups(admin_memberships, username)
-        end
-        disassociate_user(orgs, username)
-      end
-
-      delete_user(username)
-    end
-
-    def disassociate_user(orgs, username)
-      orgs.each  { |org| org.dissociate_user(username) }
-    end
-
-    def org_memberships(username)
-      org_data = root_rest.get("users/#{username}/organizations")
-      org_data.map { |org| Chef::Org.new(org["organization"]["name"]) }
-    end
-
-    def remove_from_admin_groups(admin_of, username)
-      admin_of.each do |org|
-        ui.stderr.puts "Removing #{username} from admins group of '#{org.name}'"
-        org.remove_user_from_group("admins", username)
-      end
-    end
-
-    def admin_group_memberships(orgs, username)
-      admin_of = []
-      unremovable = []
-      orgs.each do |org|
-        if org.user_member_of_group?(username, "admins")
-          admin_of << org
-          if org.actor_delete_would_leave_admins_empty?
-            unremovable << org
+      orgs = root_rest.get("users/#{username}/organizations")
+      org_names = orgs.map {|o| o['organization']['name']}
+      org_names.each do |org|
+        begin
+          ui.output root_rest.delete("organizations/#{org}/users/#{username}")
+        rescue Net::HTTPServerException => e
+          body = Chef::JSONCompat.from_json(e.response.body)
+          if e.response.code == "403" && body["error"] == "Please remove #{username} from this organization's admins group before removing him or her from the organization."
+            ui.error "Error removing user #{username} from org #{org} due to user being in that org's admins group."
+            ui.msg "Please remove #{username} from the admins group for #{org} before deleting the user."
+            ui.msg "This can be accomplished by passing --force to the org user remove command."
+            exit 1
+          else
+            raise e
           end
         end
       end
-      [admin_of, unremovable]
-    end
 
-    def delete_user(username)
-      ui.stderr.puts "Deleting user #{username}."
-      root_rest.delete("users/#{username}")
-    end
-
-    # Error message that says how to removed from org
-    # admin groups before deleting
-    # Further
-    def error_exit_admin_group_member!(username, admin_of)
-      message = "#{username} is in the 'admins' group of the following organization(s):\n\n"
-      admin_of.each { |org| message << "- #{org.name}\n" }
-      message << <<~EOM
-
-        Run this command again with the --remove-from-admin-groups option to
-        remove the user from these admin group(s) automatically.
-
-      EOM
-      ui.fatal message
-      exit 1
-    end
-
-    def error_exit_cant_remove_admin_membership!(username, only_admin_of)
-      message = <<~EOM
-
-        #{username} is the only member of the 'admins' group of the
-        following organization(s):
-
-      EOM
-      only_admin_of.each { |org| message << "- #{org.name}\n" }
-      message << <<~EOM
-
-        Removing the only administrator of an organization can break it.
-        Assign additional users or groups to the admin group(s) before
-        deleting this user.
-
-      EOM
-      ui.fatal message
-      exit 1
+      ui.output root_rest.delete("users/#{username}")
     end
   end
 end
