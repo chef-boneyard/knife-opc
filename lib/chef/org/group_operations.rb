@@ -48,7 +48,7 @@ class Chef
             admins['actors'].length <= 1
           end
         else
-          # We don't  check recursively. If the admins group contains a group,
+          # We don't check recursively. If the admins group contains a group,
           # and the user is the only member of that group,
           # we'll still turn up a 'safe to delete'.
           false

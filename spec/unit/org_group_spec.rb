@@ -17,9 +17,7 @@ require 'chef/org'
 require 'chef/org/group_operations'
 
 describe Chef::Org do
-  before(:each) do
-    @org = Chef::Org.new("myorg")
-  end
+  let(:org) { Chef::Org.new("myorg") }
 
   describe "API Interactions" do
     before(:each) do
@@ -31,7 +29,7 @@ describe Chef::Org do
     describe "group" do
       it "should load group data when it's not loaded." do
         expect(@rest).to receive(:get_rest).with("organizations/myorg/groups/admins").and_return({ })
-        @org.group("admins")
+        org.group("admins")
       end
 
       it "should not load group data a second time when it's already loaded." do
@@ -39,8 +37,8 @@ describe Chef::Org do
           with("organizations/myorg/groups/admins").
           and_return({ anything: "goes" }).
           exactly(:once)
-        admin1 = @org.group("admins")
-        admin2 = @org.group("admins")
+        admin1 = org.group("admins")
+        admin2 = org.group("admins")
         expect(admin1).to eq admin2
       end
     end

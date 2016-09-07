@@ -19,7 +19,6 @@ require 'chef/mixin/root_rest'
 
 module Opc
   class OpcUserDelete < Chef::Knife
-  class DeleteFailed < StandardError ; end
     category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
     banner "knife opc user delete USERNAME [-d] [-R]"
 
@@ -48,37 +47,28 @@ module Opc
 
       ui.confirm "Do you want to delete the user #{username}"
 
-      if config[:no_disassociate_user]
-        delete_user(username)
-        return
-      end
+      unless config[:no_disassociate_user]
+        ui.stderr.puts("Checking organization memberships...")
+        orgs = org_memberships(username)
+        if orgs.length > 0
+          ui.stderr.puts("Checking admin group memberships for #{orgs.length} org(s).")
+          admin_memberships, unremovable_memberships = admin_group_memberships(orgs, username)
+        end
 
-      ui.output("Checking organization memberships...")
-      orgs = org_memberships(username)
+        unless admin_memberships.empty?
+          unless config[:remove_from_admin_groups]
+            error_exit_admin_group_member!(username, admin_memberships)
+          end
 
-      if orgs.length > 0
-        ui.output("Checking admin group memberships for #{orgs.length} org(s).")
-        admin_memberships, unremovable_memberships = admin_group_memberships(orgs, username)
-      end
-
-      if admin_memberships.empty?
-        disassociate_user(orgs, username)
-        delete_user(username)
-      else # Has admin memberships:
-        if config[:remove_from_admin_groups]
           unless unremovable_memberships.empty?
-            raise DeleteFailed.new(error_cant_remove_admin_membership(username, unremovable_memberships))
+            error_exit_cant_remove_admin_membership!(username, unremovable_memberships)
           end
           remove_from_admin_groups(admin_memberships, username)
-        else
-          raise DeleteFailed.new(error_admin_group_member(username,
-                                                          admin_memberships))
         end
         disassociate_user(orgs, username)
-        delete_user(username)
       end
-    rescue DeleteFailed => e
-      ui.output(e.message)
+
+      delete_user(username)
     end
 
     def disassociate_user(orgs, username)
@@ -86,15 +76,15 @@ module Opc
     end
 
     def org_memberships(username)
-      org_data =  root_rest.get("users/#{username}/organizations")
-      org_names = org_data.map {|o| o['organization']['name']}
-      orgs = []
-      org_names.each { |name| orgs << Chef::Org.new(name) }
-      orgs
+      org_data = root_rest.get("users/#{username}/organizations")
+      org_data.map { |org| Chef::Org.new(org["organization"]["name"]) }
     end
 
     def remove_from_admin_groups(admin_of, username)
-      admin_of.each { |org| org.remove_user_from_group("admins", username) }
+      admin_of.each do |org|
+        ui.stderr.puts "Removing #{username} from admins group of '#{org.name}'"
+        org.remove_user_from_group("admins", username)
+      end
     end
 
     def admin_group_memberships(orgs, username)
@@ -112,36 +102,27 @@ module Opc
     end
 
     def delete_user(username)
-      ui.output root_rest.delete("users/#{username}")
+      ui.stderr.puts "Deleting user #{username}."
+      root_rest.delete("users/#{username}")
     end
-    def pluralize(word, quantity)
-      case word
-      when "it"
-        quantity > 1 ? "them" : "it"
-      else
-        quantity == 1 ? word : "#{word}s"
-      end
-    end
-
 
     # Error message that says how to removed from org
     # admin groups before deleting
     # Further
-    def error_admin_group_member(username, admin_of)
+    def error_exit_admin_group_member!(username, admin_of)
       message = "#{username} is in the 'admins' group of the following organization(s):\n\n"
-
       admin_of.each { |org| message << "- #{org.name}\n" }
-
       message << <<EOM
 
 Run this command again with the --remove-from-admin-groups option to
 remove the user from these admin group(s) automatically.
 
 EOM
-      message
+      ui.fatal message
+      exit 1
     end
 
-    def error_cant_remove_admin_membership(username, only_admin_of)
+    def error_exit_cant_remove_admin_membership!(username, only_admin_of)
       message = <<EOM
 
 #{username} is the only member of the 'admins' group of the
@@ -149,7 +130,6 @@ following organization(s):
 
 EOM
         only_admin_of.each {|org| message <<  "- #{org.name}\n"}
-
         message << <<EOM
 
 Removing the only administrator of an organization can break it.
@@ -157,7 +137,8 @@ Assign additional users or groups to the admin group(s) before
 deleting this user.
 
 EOM
-      message
+      ui.fatal message
+      exit 1
     end
   end
 end
