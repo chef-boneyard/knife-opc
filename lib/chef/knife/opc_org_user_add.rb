@@ -1,6 +1,6 @@
 #
-# Author:: Marc Paradise (<marc@getchef.com>)
-# Copyright:: Copyright 2014 Chef Software, Inc
+# Author:: Marc Paradise (<marc@chef.io>)
+# Copyright:: Copyright 2014-2016 Chef Software, Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
