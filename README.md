@@ -10,11 +10,6 @@ This knife plugin supports basic organization and user operations in Enterprise 
 - Slack: <http://community-slack.chef.io/>
 - Mailing list: <https://discourse.chef.io/>
 
-## Requirements
-
-- Chef 12.0 higher
-- Ruby 2.2.2 or higher
-
 ## Installation
 
 Using [ChefDK](https://downloads.chef.io/chef-dk/), simply install the Gem:
@@ -56,7 +51,7 @@ client_key               "/etc/opscode/pivotal.pem"
 chef_server_root         "https://chef.yourdomain.com/"
 ```
 
-## Subcommands
+## Knife Sub Commands
 
 ### knife opc user list (options)
 

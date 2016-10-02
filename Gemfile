@@ -9,4 +9,5 @@ group :development do
   gem "rspec", "~> 3.0"
   gem "chefstyle"
   gem "sdoc"
+  gem "chef"
 end
