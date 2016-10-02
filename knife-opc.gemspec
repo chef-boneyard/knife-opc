@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.author = "Steven Danna"
   s.email = "steve@opscode.com"
   s.homepage = "http://wiki.opscode.com/display/chef"
+  s.license     = "Apache-2.0"
   s.require_path = 'lib'
   s.files = %w(LICENSE README.md) + Dir.glob("lib/**/*")
 
