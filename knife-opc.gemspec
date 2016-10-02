@@ -15,5 +15,7 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.files = %w(LICENSE README.md) + Dir.glob("lib/**/*")
 
+  s.required_ruby_version = ">= 2.2.2"
+
   s.add_dependency "chef", ">= 12"
 end
