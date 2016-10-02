@@ -10,7 +10,7 @@ describe Opc::OpcOrgUserAdd do
       allow(Chef::Org).to receive(:new).and_return(org)
 
       knife.config[:admin] = true
-      knife.name_args = ["testorg", "testuser"]
+      knife.name_args = %w{testorg testuser}
 
       expect(org).to receive(:associate_user).with("testuser")
       expect(org).to receive(:add_user_to_group).with("admins", "testuser")

@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require 'chef/mixin/root_rest'
+require "chef/mixin/root_rest"
 
 module Opc
   class OpcUserPassword < Chef::Knife
@@ -50,7 +50,7 @@ module Opc
       # true or false, there is no way of knowing if the user is using ldap or not,
       # so we will update the user every time, instead of checking if we are actually
       # changing anything before we PUT.
-      user =  root_rest.get("users/#{user_name}")
+      user = root_rest.get("users/#{user_name}")
 
       user["password"] = password if not password.nil?
 
@@ -64,7 +64,6 @@ module Opc
         root_rest.put("users/#{user_name}", user)
       rescue => e
         raise e
-        exit 1
       end
       ui.msg user
       ui.msg("Authentication info updated for #{user_name}.")

@@ -17,9 +17,9 @@
 # limitations under the License.
 #
 
-require 'rubygems'
-require 'rubygems/package_task'
-require 'rdoc/task'
+require "rubygems"
+require "rubygems/package_task"
+require "rdoc/task"
 
 GEM_NAME = "knife-opc"
 
@@ -30,13 +30,13 @@ Gem::PackageTask.new(spec) do |pkg|
 end
 
 begin
-  require 'sdoc'
+  require "sdoc"
 
   Rake::RDocTask.new do |rdoc|
     rdoc.title = "Chef Ruby API Documentation"
     rdoc.main = "README.md"
-    rdoc.options << '--fmt' << 'shtml' # explictly set shtml generator
-    rdoc.template = 'direct' # lighter template
+    rdoc.options << "--fmt" << "shtml" # explictly set shtml generator
+    rdoc.template = "direct" # lighter template
     rdoc.rdoc_files.include("README.md", "LICENSE", "lib/**/*.rb")
     rdoc.rdoc_dir = "rdoc"
   end
@@ -53,16 +53,15 @@ task :uninstall do
 end
 
 begin
-  require 'rspec/core/rake_task'
+  require "rspec/core/rake_task"
 
   task :default => :spec
 
   desc "Run all specs in spec directory"
   RSpec::Core::RakeTask.new(:spec) do |t|
-    t.pattern = 'spec/unit/**/*_spec.rb'
+    t.pattern = "spec/unit/**/*_spec.rb"
   end
 
 rescue LoadError
   STDERR.puts "\n*** RSpec not available. (sudo) gem install rspec to run unit tests. ***\n\n"
 end
-

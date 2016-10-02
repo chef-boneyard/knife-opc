@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require 'chef/mixin/root_rest'
+require "chef/mixin/root_rest"
 
 module Opc
   class OpcOrgEdit < Chef::Knife
@@ -33,7 +33,7 @@ module Opc
 
       include Chef::Mixin::RootRestv0
 
-      original_org =  root_rest.get("organizations/#{org_name}")
+      original_org = root_rest.get("organizations/#{org_name}")
       edited_org = edit_data(original_org)
 
       if original_org == edited_org

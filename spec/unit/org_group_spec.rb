@@ -12,9 +12,9 @@
 # limitations under the License.
 #
 
-require 'spec_helper'
-require 'chef/org'
-require 'chef/org/group_operations'
+require "spec_helper"
+require "chef/org"
+require "chef/org/group_operations"
 
 describe Chef::Org do
   let(:org) { Chef::Org.new("myorg") }
@@ -22,13 +22,13 @@ describe Chef::Org do
   describe "API Interactions" do
     before(:each) do
       Chef::Config[:chef_server_root] = "http://www.example.com"
-      @rest = double('rest')
+      @rest = double("rest")
       allow(Chef::REST).to receive(:new).and_return(@rest)
     end
 
     describe "group" do
       it "should load group data when it's not loaded." do
-        expect(@rest).to receive(:get_rest).with("organizations/myorg/groups/admins").and_return({ })
+        expect(@rest).to receive(:get_rest).with("organizations/myorg/groups/admins").and_return({})
         org.group("admins")
       end
 

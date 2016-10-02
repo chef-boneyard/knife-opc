@@ -23,14 +23,14 @@ module Opc
     attr_accessor :org_name, :username
 
     option :force_remove_from_admins,
-    :long => '--force',
-    :short => '-f',
+    :long => "--force",
+    :short => "-f",
     :description => "Force removal of user from the organization's admins and billing-admins group."
 
     deps do
-      require 'chef/org'
-      require 'chef/org/group_operations'
-      require 'chef/json_compat'
+      require "chef/org"
+      require "chef/org/group_operations"
+      require "chef/json_compat"
     end
 
     def run

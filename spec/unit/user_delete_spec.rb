@@ -1,13 +1,13 @@
-require 'spec_helper'
-require 'chef/org'
-require 'chef/org/group_operations'
+require "spec_helper"
+require "chef/org"
+require "chef/org/group_operations"
 require "chef/knife/opc_user_delete"
 
 describe Opc::OpcUserDelete do
   subject(:knife) { Chef::Knife::OpcUserDelete.new }
 
-  let(:non_admin_member_org) { Chef::Org.new("non-admin-member")}
-  let(:solo_admin_member_org) { Chef::Org.new("solo-admin-member")}
+  let(:non_admin_member_org) { Chef::Org.new("non-admin-member") }
+  let(:solo_admin_member_org) { Chef::Org.new("solo-admin-member") }
   let(:shared_admin_member_org) { Chef::Org.new("shared-admin-member") }
 
   let(:removable_orgs) { [non_admin_member_org, shared_admin_member_org] }
@@ -20,12 +20,12 @@ describe Opc::OpcUserDelete do
   let(:orgs) { [non_admin_member_org, solo_admin_member_org, shared_admin_member_org] }
   let(:knife) { Chef::Knife::OpcUserDelete.new }
 
-  let(:orgs_data) {
-    [{"organization" => { "name" => "non-admin-member" }},
-     {"organization" => { "name" => "solo-admin-member" }},
-     {"organization" => { "name" => "shared-admin-member" }}
+  let(:orgs_data) do
+    [{ "organization" => { "name" => "non-admin-member" } },
+     { "organization" => { "name" => "solo-admin-member" } },
+     { "organization" => { "name" => "shared-admin-member" } },
   ]
-  }
+  end
 
   before(:each) do
     allow(Chef::ServerAPI).to receive(:new).and_return(rest)
@@ -54,7 +54,6 @@ describe Opc::OpcUserDelete do
         allow(knife).to receive(:org_memberships).and_return(orgs)
       end
 
-
       context "and with --remove-from-admin-groups" do
         let(:non_removable_orgs) { [ solo_admin_member_org ] }
         before(:each) do
@@ -66,7 +65,7 @@ describe Opc::OpcUserDelete do
 
           it "refuses to proceed with because the user is the only admin" do
             expect(knife).to receive(:error_exit_cant_remove_admin_membership!).and_call_original
-            expect {knife.run}.to raise_error SystemExit
+            expect { knife.run }.to raise_error SystemExit
           end
         end
 
@@ -120,7 +119,7 @@ describe Opc::OpcUserDelete do
 
     end
 
-    it "returns an array of organizations in which the user is an admin, and an array of orgs which block removal"  do
+    it "returns an array of organizations in which the user is an admin, and an array of orgs which block removal" do
       expect(knife.admin_group_memberships(orgs, username)).to eq [ [solo_admin_member_org, shared_admin_member_org], [solo_admin_member_org]]
     end
   end
@@ -156,4 +155,3 @@ describe Opc::OpcUserDelete do
     end
   end
 end
-
