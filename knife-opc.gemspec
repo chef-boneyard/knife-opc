@@ -14,8 +14,4 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.files = %w(LICENSE README.md) + Dir.glob("lib/**/*")
 
-  s.add_development_dependency "rake"
-  s.add_development_dependency "rspec"
-  s.add_development_dependency "chef"
-  s.add_development_dependency "sdoc"
 end
