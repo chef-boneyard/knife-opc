@@ -15,4 +15,5 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.files = %w(LICENSE README.md) + Dir.glob("lib/**/*")
 
+  s.add_dependency "chef", ">= 12"
 end
