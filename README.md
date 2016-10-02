@@ -1,5 +1,7 @@
 # knife OPC
 
+[![Gem Version](https://badge.fury.io/rb/knife-opc.svg)](https://rubygems.org/gems/knife-opc) [![Build Status](https://travis-ci.org/chef/knife-opc.svg?branch=master)](https://travis-ci.org/chef/knife-opc)
+
 This knife plugin supports basic organization and user operations in Enterprise Chef (formerly Opscode Private Chef) and Chef Server 12.
 
 - Documentation: <https://github.com/chef/knife-opc/blob/master/README.md>
