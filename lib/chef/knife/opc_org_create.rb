@@ -1,6 +1,6 @@
 #
-# Author:: Steven Danna (<steve@opscode.com>)
-# Copyright:: Copyright 2011 Opscode, Inc.
+# Author:: Steven Danna (<steve@chef.io>)
+# Copyright:: Copyright 2011-2016 Chef Software, Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,20 +22,20 @@ module Opc
     banner "knife opc org create ORG_SHORT_NAME ORG_FULL_NAME (options)"
 
     option :filename,
-    :long => '--filename FILENAME',
-    :short => '-f FILENAME',
-    :description => 'Write validator private key to FILENAME rather than STDOUT'
+    :long => "--filename FILENAME",
+    :short => "-f FILENAME",
+    :description => "Write validator private key to FILENAME rather than STDOUT"
 
     option :association_user,
-    :long => '--association_user USERNAME',
-    :short => '-a USERNAME',
-    :description => 'Invite USERNAME to the new organization after creation'
+    :long => "--association_user USERNAME",
+    :short => "-a USERNAME",
+    :description => "Invite USERNAME to the new organization after creation"
 
     attr_accessor :org_name, :org_full_name
 
     deps do
-      require 'chef/org'
-      require 'chef/org/group_operations'
+      require "chef/org"
+      require "chef/org/group_operations"
     end
 
     def run
@@ -47,8 +47,8 @@ module Opc
         exit 1
       end
 
-      org = Chef::Org.from_hash({ 'name' => org_name,
-                                  'full_name' => org_full_name}).create
+      org = Chef::Org.from_hash({ "name" => org_name,
+                                  "full_name" => org_full_name }).create
       if config[:filename]
         File.open(config[:filename], "w") do |f|
           f.print(org.private_key)
@@ -59,8 +59,8 @@ module Opc
 
       if config[:association_user]
         org.associate_user(config[:association_user])
-        org.add_user_to_group('admins', config[:association_user])
-        org.add_user_to_group('billing-admins', config[:association_user])
+        org.add_user_to_group("admins", config[:association_user])
+        org.add_user_to_group("billing-admins", config[:association_user])
       end
     end
   end

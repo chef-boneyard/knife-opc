@@ -1,6 +1,6 @@
 #
 # Author:: Marc Paradise (<marc@getchef.com>)
-# Copyright:: Copyright 2014 Chef Software, Inc
+# Copyright:: Copyright 2014-2016 Chef Software, Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,14 +23,14 @@ module Opc
     attr_accessor :org_name, :username
 
     option :force_remove_from_admins,
-    :long => '--force',
-    :short => '-f',
+    :long => "--force",
+    :short => "-f",
     :description => "Force removal of user from the organization's admins and billing-admins group."
 
     deps do
-      require 'chef/org'
-      require 'chef/org/group_operations'
-      require 'chef/json_compat'
+      require "chef/org"
+      require "chef/org/group_operations"
+      require "chef/json_compat"
     end
 
     def run

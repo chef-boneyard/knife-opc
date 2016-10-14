@@ -1,6 +1,6 @@
 #
-# Author:: Steven Danna (<steve@opscode.com>)
-# Copyright:: Copyright 2011 Opscode, Inc.
+# Author:: Steven Danna (<steve@chef.io>)
+# Copyright:: Copyright 2011-2016 Chef Software, Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require 'chef/mixin/root_rest'
+require "chef/mixin/root_rest"
 
 module Opc
   class OpcUserDelete < Chef::Knife
@@ -36,8 +36,8 @@ module Opc
     include Chef::Mixin::RootRestv0
 
     deps do
-      require 'chef/org'
-      require 'chef/org/group_operations'
+      require "chef/org"
+      require "chef/org/group_operations"
     end
 
     def run
@@ -72,7 +72,7 @@ module Opc
     end
 
     def disassociate_user(orgs, username)
-      orgs.each  {|org| org.dissociate_user(username) }
+      orgs.each  { |org| org.dissociate_user(username) }
     end
 
     def org_memberships(username)
@@ -91,7 +91,7 @@ module Opc
       admin_of = []
       unremovable = []
       orgs.each do |org|
-        if org.user_member_of_group?(username, 'admins')
+        if org.user_member_of_group?(username, "admins")
           admin_of << org
           if org.actor_delete_would_leave_admins_empty?
             unremovable << org
@@ -129,8 +129,8 @@ EOM
 following organization(s):
 
 EOM
-        only_admin_of.each {|org| message <<  "- #{org.name}\n"}
-        message << <<EOM
+      only_admin_of.each { |org| message << "- #{org.name}\n" }
+      message << <<EOM
 
 Removing the only administrator of an organization can break it.
 Assign additional users or groups to the admin group(s) before

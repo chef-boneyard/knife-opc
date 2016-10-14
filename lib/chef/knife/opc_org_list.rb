@@ -1,6 +1,6 @@
 #
-# Author:: Steven Danna (<steve@opscode.com>)
-# Copyright:: Copyright 2011 Opscode, Inc.
+# Author:: Steven Danna (<steve@chef.io>)
+# Copyright:: Copyright 2011-2016 Chef Software, Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require 'chef/mixin/root_rest'
+require "chef/mixin/root_rest"
 
 module Opc
   class OpcOrgList < Chef::Knife
@@ -35,9 +35,9 @@ module Opc
     include Chef::Mixin::RootRestv0
 
     def run
-      results =  root_rest.get("organizations")
+      results = root_rest.get("organizations")
       unless config[:all_orgs]
-        results = results.select { |k,v| !(k.length == 20 && k =~ /^[a-z]+$/) }
+        results = results.select { |k, v| !(k.length == 20 && k =~ /^[a-z]+$/) }
       end
       ui.output(ui.format_list_for_display(results))
     end

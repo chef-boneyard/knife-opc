@@ -1,6 +1,6 @@
 #
-# Author:: Steven Danna (<steve@opscode.com>)
-# Copyright:: Copyright 2011 Opscode, Inc.
+# Author:: Steven Danna (<steve@chef.io>)
+# Copyright:: Copyright 2011-2016 Chef Software, Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require 'chef/mixin/root_rest'
+require "chef/mixin/root_rest"
 
 module Opc
   class OpcUserEdit < Chef::Knife
@@ -23,14 +23,14 @@ module Opc
     banner "knife opc user edit USERNAME"
 
     option :input,
-    :long => '--input FILENAME',
-    :short => '-i FILENAME',
-    :description => 'Name of file to use for PUT or POST'
+    :long => "--input FILENAME",
+    :short => "-i FILENAME",
+    :description => "Name of file to use for PUT or POST"
 
     option :filename,
-    :long => '--filename FILENAME',
-    :short => '-f FILENAME',
-    :description => 'Write private key to FILENAME rather than STDOUT'
+    :long => "--filename FILENAME",
+    :short => "-f FILENAME",
+    :description => "Write private key to FILENAME rather than STDOUT"
 
     include Chef::Mixin::RootRestv0
 
@@ -43,7 +43,7 @@ module Opc
         exit 1
       end
 
-      original_user =  root_rest.get("users/#{user_name}")
+      original_user = root_rest.get("users/#{user_name}")
       if config[:input]
         edited_user = JSON.parse(IO.read(config[:input]))
       else
@@ -52,19 +52,18 @@ module Opc
       if original_user != edited_user
         result = root_rest.put("users/#{user_name}", edited_user)
         ui.msg("Saved #{user_name}.")
-        if ! result['private_key'].nil?
+        if ! result["private_key"].nil?
           if config[:filename]
             File.open(config[:filename], "w") do |f|
-              f.print(result['private_key'])
+              f.print(result["private_key"])
             end
           else
-            ui.msg result['private_key']
+            ui.msg result["private_key"]
           end
         end
       else
         ui.msg("User unchanged, not saving.")
       end
-
     end
   end
 end

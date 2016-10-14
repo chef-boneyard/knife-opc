@@ -1,6 +1,6 @@
 #
-# Author:: Steven Danna (steve@opscode.com)
-# Copyright:: Copyright (c) 2012 Opscode, Inc.
+# Author:: Steven Danna (steve@chef.io)
+# Copyright:: Copyright (c) 2012-2016 Chef Software, Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,10 +16,10 @@
 # limitations under the License.
 #
 
-require 'spec_helper'
+require "spec_helper"
 
-require 'chef/org'
-require 'tempfile'
+require "chef/org"
+require "tempfile"
 
 describe Chef::Org do
   before(:each) do
@@ -112,8 +112,8 @@ describe Chef::Org do
   describe "when deserializing from JSON" do
     before(:each) do
       org = { "name" => "turtle",
-        "full_name" => "turtle_club",
-        "private_key" => "pandas" }
+              "full_name" => "turtle_club",
+              "private_key" => "pandas" }
       @org = Chef::Org.from_json(org.to_json)
     end
 
@@ -137,7 +137,7 @@ describe Chef::Org do
   describe "API Interactions" do
     before (:each) do
       Chef::Config[:chef_server_root] = "http://www.example.com"
-      @rest = double('rest')
+      @rest = double("rest")
       allow(Chef::REST).to receive(:new).and_return(@rest)
       @org = Chef::Org.new
       @org.name "foobar"
@@ -146,8 +146,8 @@ describe Chef::Org do
 
     describe "list" do
       before(:each) do
-        @response = {"foobar" => "http://www.example.com/organizations/foobar"}
-        @inflated_response = {"foobar" => @org }
+        @response = { "foobar" => "http://www.example.com/organizations/foobar" }
+        @inflated_response = { "foobar" => @org }
         allow(Chef::Org).to receive(:load).with("foobar").and_return(@org)
       end
 
@@ -164,14 +164,14 @@ describe Chef::Org do
 
     describe "create" do
       it "creates a new org via the API" do
-        expect(@rest).to receive(:post_rest).with("organizations", {:name => "foobar", :full_name => "foo bar bat"}).and_return({})
+        expect(@rest).to receive(:post_rest).with("organizations", { :name => "foobar", :full_name => "foo bar bat" }).and_return({})
         @org.create
       end
     end
 
     describe "read" do
       it "loads a named org from the API" do
-        expect(@rest).to receive(:get_rest).with("organizations/foobar").and_return({"name" => "foobar", "full_name" => "foo bar bat", "private_key" => "private"})
+        expect(@rest).to receive(:get_rest).with("organizations/foobar").and_return({ "name" => "foobar", "full_name" => "foo bar bat", "private_key" => "private" })
         org = Chef::Org.load("foobar")
         expect(org.name).to eq("foobar")
         expect(org.full_name).to eq("foo bar bat")
@@ -181,7 +181,7 @@ describe Chef::Org do
 
     describe "update" do
       it "updates an existing org on via the API" do
-        expect(@rest).to receive(:put_rest).with("organizations/foobar", {:name => "foobar", :full_name => "foo bar bat"}).and_return({})
+        expect(@rest).to receive(:put_rest).with("organizations/foobar", { :name => "foobar", :full_name => "foo bar bat" }).and_return({})
         @org.update
       end
     end

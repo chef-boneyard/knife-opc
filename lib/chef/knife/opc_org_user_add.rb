@@ -1,6 +1,6 @@
 #
-# Author:: Marc Paradise (<marc@getchef.com>)
-# Copyright:: Copyright 2014 Chef Software, Inc
+# Author:: Marc Paradise (<marc@chef.io>)
+# Copyright:: Copyright 2014-2016 Chef Software, Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,13 +23,13 @@ module Opc
     attr_accessor :org_name, :username
 
     option :admin,
-    :long => '--admin',
-    :short => '-a',
-    :description => 'Add user to admin group'
+    :long => "--admin",
+    :short => "-a",
+    :description => "Add user to admin group"
 
     deps do
-      require 'chef/org'
-      require 'chef/org/group_operations'
+      require "chef/org"
+      require "chef/org/group_operations"
     end
 
     def run
@@ -52,8 +52,8 @@ module Opc
         end
       end
       if config[:admin]
-        org.add_user_to_group('admins', @username)
-        org.add_user_to_group('billing-admins', @username)
+        org.add_user_to_group("admins", @username)
+        org.add_user_to_group("billing-admins", @username)
       end
     end
   end
