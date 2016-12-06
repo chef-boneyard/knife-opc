@@ -65,7 +65,7 @@ module Opc
       rescue => e
         raise e
       end
-      ui.msg user
+
       ui.msg("Authentication info updated for #{user_name}.")
     end
   end
