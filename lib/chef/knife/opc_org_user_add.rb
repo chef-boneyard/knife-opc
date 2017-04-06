@@ -54,6 +54,7 @@ module Opc
       if config[:admin]
         org.add_user_to_group("admins", @username)
         org.add_user_to_group("billing-admins", @username)
+        ui.msg "User #{username} is added to admins and billing-admins group"
       end
     end
   end
