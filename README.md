@@ -67,9 +67,10 @@ Show a list of all users in your OPC installation.
 
 Shows the details of a user in your OPC installation.
 
-### knife opc user create USERNAME FIRST_NAME [MIDDLE_NAME] LAST_NAME EMAIL PASSWORD (options)
+### knife opc user create USERNAME FIRST_NAME [MIDDLE_NAME] LAST_NAME EMAIL [PASSWORD] (options)
 
 - `-f FILENAME`, `--filename FILENAME`: Write private key to FILENAME rather than STDOUT.
+- `-p`, `--prompt-for-password`: Prompt for password rather than providing it on the command line.
 
 Creates a new user in your OPC installation. The user's private key will be returned in response. Without this key, the user will need to log into the WebUI and regenerate their key before they can use knife.
 
