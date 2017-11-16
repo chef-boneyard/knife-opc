@@ -87,17 +87,15 @@ EOF
     end
 
     def remove_user_from_admin_group(org, org_name, username, admin_group_string)
-      begin
-        org.remove_user_from_group(admin_group_string, username)
-      rescue Net::HTTPServerException => e
-        if e.response.code == "404"
-          ui.warn <<-EOF
+      org.remove_user_from_group(admin_group_string, username)
+    rescue Net::HTTPServerException => e
+      if e.response.code == "404"
+        ui.warn <<-EOF
 User #{username} is not in the #{admin_group_string} group for organization #{org_name}.
 You probably don't need to pass --force.
 EOF
-        else
-          raise e
-        end
+      else
+        raise e
       end
     end
 

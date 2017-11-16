@@ -23,7 +23,7 @@ describe Chef::Org do
     before(:each) do
       Chef::Config[:chef_server_root] = "http://www.example.com"
       @rest = double("rest")
-      allow(Chef::REST).to receive(:new).and_return(@rest)
+      allow(Chef::ServerAPI).to receive(:new).and_return(@rest)
     end
 
     describe "group" do

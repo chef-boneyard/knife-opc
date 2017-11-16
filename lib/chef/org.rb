@@ -1,6 +1,6 @@
 require "chef/json_compat"
 require "chef/mixin/params_validate"
-require "chef/rest"
+require "chef/server_api"
 require "chef/org/group_operations"
 
 class Chef
@@ -19,7 +19,7 @@ class Chef
     end
 
     def chef_rest
-      @chef_rest ||= Chef::REST.new(Chef::Config[:chef_server_root])
+      @chef_rest ||= Chef::ServerAPI.new(Chef::Config[:chef_server_root])
     end
 
     def name(arg = nil)
@@ -57,15 +57,15 @@ class Chef
     end
 
     def create
-      payload = { :name => self.name, :full_name => self.full_name }
+      payload = { :name => name, :full_name => full_name }
       new_org = chef_rest.post_rest("organizations", payload)
-      Chef::Org.from_hash(self.to_hash.merge(new_org))
+      Chef::Org.from_hash(to_hash.merge(new_org))
     end
 
     def update
-      payload = { :name => self.name, :full_name => self.full_name }
+      payload = { :name => name, :full_name => full_name }
       new_org = chef_rest.put_rest("organizations/#{name}", payload)
-      Chef::Org.from_hash(self.to_hash.merge(new_org))
+      Chef::Org.from_hash(to_hash.merge(new_org))
     end
 
     def destroy
@@ -73,14 +73,12 @@ class Chef
     end
 
     def save
-      begin
-        create
-      rescue Net::HTTPServerException => e
-        if e.response.code == "409"
-          update
-        else
-          raise e
-        end
+      create
+    rescue Net::HTTPServerException => e
+      if e.response.code == "409"
+        update
+      else
+        raise e
       end
     end
 
@@ -114,12 +112,12 @@ class Chef
     end
 
     def self.load(org_name)
-      response = Chef::REST.new(Chef::Config[:chef_server_root]).get_rest("organizations/#{org_name}")
+      response = Chef::ServerAPI.new(Chef::Config[:chef_server_root]).get_rest("organizations/#{org_name}")
       Chef::Org.from_hash(response)
     end
 
     def self.list(inflate = false)
-      orgs = Chef::REST.new(Chef::Config[:chef_server_root]).get_rest("organizations")
+      orgs = Chef::ServerAPI.new(Chef::Config[:chef_server_root]).get_rest("organizations")
       if inflate
         orgs.inject({}) do |org_map, (name, _url)|
           org_map[name] = Chef::Org.load(name)

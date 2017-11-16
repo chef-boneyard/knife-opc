@@ -32,6 +32,11 @@ module Opc
     :short => "-o ORGNAME",
     :description => "Associate new user to an organization matching ORGNAME"
 
+    option :passwordprompt,
+    :long => "--prompt-for-password",
+    :short => "-p",
+    :description => "Prompt for user password"
+
     include Chef::Mixin::RootRestv0
 
     def run
@@ -40,9 +45,16 @@ module Opc
         username, first_name, middle_name, last_name, email, password = @name_args
       when 5
         username, first_name, last_name, email, password = @name_args
+      when 4
+        username, first_name, last_name, email = @name_args
       else
         ui.fatal "Wrong number of arguments"
         show_usage
+        exit 1
+      end
+      password = prompt_for_password if config[:passwordprompt]
+      unless password
+        ui.fatal "You must either provide a password or use the --prompt-for-password (-p) option"
         exit 1
       end
       middle_name ||= ""
@@ -80,6 +92,10 @@ module Opc
         association_id = response["uri"].split("/").last
         root_rest.put("users/#{username}/association_requests/#{association_id}", { :response => "accept" })
       end
+    end
+
+    def prompt_for_password
+      ui.ask("Please enter the user's password: ") { |q| q.echo = false }
     end
   end
 end
