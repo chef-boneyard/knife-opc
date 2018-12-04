@@ -23,9 +23,9 @@ module Opc
     banner "knife opc user delete USERNAME [-d] [-R]"
 
     option :no_disassociate_user,
-      :long => "--no-disassociate-user",
-      :short => "-d",
-      :description => "Don't disassociate the user first"
+      long: "--no-disassociate-user",
+      short: "-d",
+      description: "Don't disassociate the user first"
 
     option :remove_from_admin_groups,
       long:  "--remove-from-admin-groups",
@@ -112,10 +112,10 @@ module Opc
     def error_exit_admin_group_member!(username, admin_of)
       message = "#{username} is in the 'admins' group of the following organization(s):\n\n"
       admin_of.each { |org| message << "- #{org.name}\n" }
-      message << <<EOM
+      message << <<~EOM
 
-Run this command again with the --remove-from-admin-groups option to
-remove the user from these admin group(s) automatically.
+        Run this command again with the --remove-from-admin-groups option to
+        remove the user from these admin group(s) automatically.
 
 EOM
       ui.fatal message
@@ -123,18 +123,18 @@ EOM
     end
 
     def error_exit_cant_remove_admin_membership!(username, only_admin_of)
-      message = <<EOM
+      message = <<~EOM
 
-#{username} is the only member of the 'admins' group of the
-following organization(s):
+        #{username} is the only member of the 'admins' group of the
+        following organization(s):
 
 EOM
       only_admin_of.each { |org| message << "- #{org.name}\n" }
-      message << <<EOM
+      message << <<~EOM
 
-Removing the only administrator of an organization can break it.
-Assign additional users or groups to the admin group(s) before
-deleting this user.
+        Removing the only administrator of an organization can break it.
+        Assign additional users or groups to the admin group(s) before
+        deleting this user.
 
 EOM
       ui.fatal message

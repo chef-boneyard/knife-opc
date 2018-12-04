@@ -23,19 +23,19 @@ module Opc
     banner "knife opc user create USERNAME FIRST_NAME [MIDDLE_NAME] LAST_NAME EMAIL PASSWORD"
 
     option :filename,
-    :long => "--filename FILENAME",
-    :short => "-f FILENAME",
-    :description => "Write private key to FILENAME rather than STDOUT"
+    long: "--filename FILENAME",
+    short: "-f FILENAME",
+    description: "Write private key to FILENAME rather than STDOUT"
 
     option :orgname,
-    :long => "--orgname ORGNAME",
-    :short => "-o ORGNAME",
-    :description => "Associate new user to an organization matching ORGNAME"
+    long: "--orgname ORGNAME",
+    short: "-o ORGNAME",
+    description: "Associate new user to an organization matching ORGNAME"
 
     option :passwordprompt,
-    :long => "--prompt-for-password",
-    :short => "-p",
-    :description => "Prompt for user password"
+    long: "--prompt-for-password",
+    short: "-p",
+    description: "Prompt for user password"
 
     include Chef::Mixin::RootRestv0
 
@@ -60,19 +60,19 @@ module Opc
       middle_name ||= ""
 
       user_hash = {
-        :username =>     username,
-        :first_name =>   first_name,
-        :middle_name =>  middle_name,
-        :last_name =>    last_name,
-        :display_name => "#{first_name} #{last_name}",
-        :email =>        email,
-        :password =>     password,
+        username: username,
+        first_name: first_name,
+        middle_name: middle_name,
+        last_name: last_name,
+        display_name: "#{first_name} #{last_name}",
+        email: email,
+        password: password,
       }
 
      # Check the file before creating the user so the api is more transactional.
       if config[:filename]
         file = config[:filename]
-        unless File.exists?(file) ? File.writable?(file) : File.writable?(File.dirname(file))
+        unless File.exist?(file) ? File.writable?(file) : File.writable?(File.dirname(file))
           ui.fatal "File #{config[:filename]} is not writable.  Check permissions."
           exit 1
         end
@@ -87,10 +87,10 @@ module Opc
         ui.msg result["private_key"]
       end
       if config[:orgname]
-        request_body = { :user => username }
+        request_body = { user: username }
         response = root_rest.post("organizations/#{config[:orgname]}/association_requests", request_body)
         association_id = response["uri"].split("/").last
-        root_rest.put("users/#{username}/association_requests/#{association_id}", { :response => "accept" })
+        root_rest.put("users/#{username}/association_requests/#{association_id}", { response: "accept" })
       end
     end
 

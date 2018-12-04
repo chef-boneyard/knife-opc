@@ -23,9 +23,9 @@ module Opc
     banner "knife opc user password USERNAME [PASSWORD | --enable-external-auth]"
 
     option :enable_external_auth,
-    :long => "--enable-external-auth",
-    :short => "-e",
-    :description => "Enable external authentication for this user (such as LDAP)"
+    long: "--enable-external-auth",
+    short: "-e",
+    description: "Enable external authentication for this user (such as LDAP)"
 
     include Chef::Mixin::RootRestv0
 

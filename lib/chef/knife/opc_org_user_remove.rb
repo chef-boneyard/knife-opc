@@ -23,9 +23,9 @@ module Opc
     attr_accessor :org_name, :username
 
     option :force_remove_from_admins,
-    :long => "--force",
-    :short => "-f",
-    :description => "Force removal of user from the organization's admins and billing-admins group."
+    long: "--force",
+    short: "-f",
+    description: "Force removal of user from the organization's admins and billing-admins group."
 
     deps do
       require "chef/org"
@@ -47,10 +47,10 @@ module Opc
       if config[:force_remove_from_admins]
         if org.actor_delete_would_leave_admins_empty?
           failure_error_message(org_name, username)
-          ui.msg <<-EOF
-You ran with --force which force removes the user from the admins and billing-admins groups.
-However, removing #{username} from the admins group would leave it empty, which breaks the org.
-Please add another user to org #{org_name} admins group and try again.
+          ui.msg <<~EOF
+            You ran with --force which force removes the user from the admins and billing-admins groups.
+            However, removing #{username} from the admins group would leave it empty, which breaks the org.
+            Please add another user to org #{org_name} admins group and try again.
 EOF
           exit 1
         end
@@ -66,11 +66,11 @@ EOF
           exit 1
         elsif e.response.code == "403"
           body = Chef::JSONCompat.from_json(e.response.body)
-          if body.has_key?("error") && body["error"] == "Please remove #{username} from this organization's admins group before removing him or her from the organization."
+          if body.key?("error") && body["error"] == "Please remove #{username} from this organization's admins group before removing him or her from the organization."
             failure_error_message(org_name, username)
-            ui.msg <<-EOF
-User #{username} is in the organization's admin group. Removing users from an organization without removing them from the admins group is not allowed.
-Re-run this command with --force to remove this user from the admins prior to removing it from the organization.
+            ui.msg <<~EOF
+              User #{username} is in the organization's admin group. Removing users from an organization without removing them from the admins group is not allowed.
+              Re-run this command with --force to remove this user from the admins prior to removing it from the organization.
 EOF
             exit 1
           else
@@ -90,9 +90,9 @@ EOF
       org.remove_user_from_group(admin_group_string, username)
     rescue Net::HTTPServerException => e
       if e.response.code == "404"
-        ui.warn <<-EOF
-User #{username} is not in the #{admin_group_string} group for organization #{org_name}.
-You probably don't need to pass --force.
+        ui.warn <<~EOF
+          User #{username} is not in the #{admin_group_string} group for organization #{org_name}.
+          You probably don't need to pass --force.
 EOF
       else
         raise e
