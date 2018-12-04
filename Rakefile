@@ -17,61 +17,44 @@
 # limitations under the License.
 #
 
-require "rubygems"
-require "rubygems/package_task"
-require "rdoc/task"
-
-GEM_NAME = "knife-opc"
-
-spec = eval(File.read("knife-opc.gemspec"))
-
-Gem::PackageTask.new(spec) do |pkg|
-  pkg.gem_spec = spec
-end
-
-begin
-  require "sdoc"
-
-  Rake::RDocTask.new do |rdoc|
-    rdoc.title = "Chef Ruby API Documentation"
-    rdoc.main = "README.md"
-    rdoc.options << "--fmt" << "shtml" # explictly set shtml generator
-    rdoc.template = "direct" # lighter template
-    rdoc.rdoc_files.include("README.md", "LICENSE", "lib/**/*.rb")
-    rdoc.rdoc_dir = "rdoc"
-  end
-rescue LoadError
-  puts "sdoc is not available. (sudo) gem install sdoc to generate rdoc documentation."
-end
-
-task :install => :package do
-  sh %{gem install pkg/#{GEM_NAME}-#{KnifeOPC::VERSION} --no-rdoc --no-ri}
-end
-
-task :uninstall do
-  sh %{gem uninstall #{GEM_NAME} -x -v #{KnifeOPC::VERSION} }
-end
+require "bundler/gem_tasks"
 
 begin
   require "rspec/core/rake_task"
 
-  desc "Run all specs in spec directory"
-  RSpec::Core::RakeTask.new(:spec) do |t|
-    t.pattern = "spec/unit/**/*_spec.rb"
+  RSpec::Core::RakeTask.new do |t|
+    t.pattern = "spec/**/*_spec.rb"
   end
-
 rescue LoadError
-  STDERR.puts "\n*** RSpec not available. (sudo) gem install rspec to run unit tests. ***\n\n"
+  desc "rspec is not installed, this task is disabled"
+  task :spec do
+    abort "rspec is not installed. bundle install first to make sure all dependencies are installed."
+  end
 end
 
 begin
   require "chefstyle"
   require "rubocop/rake_task"
+  desc "Run Chefstyle tests"
   RuboCop::RakeTask.new(:style) do |task|
-    task.options << "--display-cop-names"
+    task.options += ["--display-cop-names", "--no-color"]
   end
 rescue LoadError
-  STDERR.puts "\n*** chefstyle not available. (sudo) gem install chefstyle to run unit tests. ***\n\n"
+  puts "chefstyle gem is not installed. bundle install first to make sure all dependencies are installed."
 end
 
-task default: [:spec, :style]
+begin
+  require "yard"
+  YARD::Rake::YardocTask.new(:docs)
+rescue LoadError
+  puts "yard is not available. bundle install first to make sure all dependencies are installed."
+end
+
+task :console do
+  require "irb"
+  require "irb/completion"
+  ARGV.clear
+  IRB.start
+end
+
+task default: [:style, :spec]
