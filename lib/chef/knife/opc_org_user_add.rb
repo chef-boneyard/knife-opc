@@ -23,9 +23,9 @@ module Opc
     attr_accessor :org_name, :username
 
     option :admin,
-    :long => "--admin",
-    :short => "-a",
-    :description => "Add user to admin group"
+    long: "--admin",
+    short: "-a",
+    description: "Add user to admin group"
 
     deps do
       require "chef/org"

@@ -33,10 +33,10 @@ describe Chef::Org do
       end
 
       it "should not load group data a second time when it's already loaded." do
-        expect(@rest).to receive(:get_rest).
-          with("organizations/myorg/groups/admins").
-          and_return({ anything: "goes" }).
-          exactly(:once)
+        expect(@rest).to receive(:get_rest)
+          .with("organizations/myorg/groups/admins")
+          .and_return({ anything: "goes" })
+          .exactly(:once)
         admin1 = org.group("admins")
         admin2 = org.group("admins")
         expect(admin1).to eq admin2

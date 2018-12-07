@@ -23,8 +23,8 @@ module Opc
     banner "knife opc user show USERNAME"
 
     option :with_orgs,
-    :long => "--with-orgs",
-    :short => "-l"
+    long: "--with-orgs",
+    short: "-l"
 
     include Chef::Mixin::RootRestv0
 

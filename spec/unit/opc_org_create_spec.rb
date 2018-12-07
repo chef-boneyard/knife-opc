@@ -14,8 +14,8 @@ describe Opc::OpcOrgCreate do
 
   let(:org_args) do
     {
-      :name => @org_name,
-      :full_name => @org_full_name,
+      name: @org_name,
+      full_name: @org_full_name,
     }
   end
 

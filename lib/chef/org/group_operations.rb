@@ -16,8 +16,8 @@ class Chef
       def add_user_to_group(groupname, username)
         group = group(groupname)
         body_hash = {
-          :groupname => "#{groupname}",
-          :actors => {
+          groupname: "#{groupname}",
+          actors: {
             "users" => group["actors"].concat([username]),
             "groups" => group["groups"],
           },
@@ -29,8 +29,8 @@ class Chef
         group = group(groupname)
         group["actors"].delete(username)
         body_hash = {
-          :groupname => "#{groupname}",
-          :actors => {
+          groupname: "#{groupname}",
+          actors: {
             "users" => group["actors"],
             "groups" => group["groups"],
           },

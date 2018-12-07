@@ -22,14 +22,14 @@ module Opc
     banner "knife opc org create ORG_SHORT_NAME ORG_FULL_NAME (options)"
 
     option :filename,
-    :long => "--filename FILENAME",
-    :short => "-f FILENAME",
-    :description => "Write validator private key to FILENAME rather than STDOUT"
+    long: "--filename FILENAME",
+    short: "-f FILENAME",
+    description: "Write validator private key to FILENAME rather than STDOUT"
 
     option :association_user,
-    :long => "--association_user USERNAME",
-    :short => "-a USERNAME",
-    :description => "Invite USERNAME to the new organization after creation"
+    long: "--association_user USERNAME",
+    short: "-a USERNAME",
+    description: "Invite USERNAME to the new organization after creation"
 
     attr_accessor :org_name, :org_full_name
 

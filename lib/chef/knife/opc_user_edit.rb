@@ -23,14 +23,14 @@ module Opc
     banner "knife opc user edit USERNAME"
 
     option :input,
-    :long => "--input FILENAME",
-    :short => "-i FILENAME",
-    :description => "Name of file to use for PUT or POST"
+    long: "--input FILENAME",
+    short: "-i FILENAME",
+    description: "Name of file to use for PUT or POST"
 
     option :filename,
-    :long => "--filename FILENAME",
-    :short => "-f FILENAME",
-    :description => "Write private key to FILENAME rather than STDOUT"
+    long: "--filename FILENAME",
+    short: "-f FILENAME",
+    description: "Write private key to FILENAME rather than STDOUT"
 
     include Chef::Mixin::RootRestv0
 
