@@ -18,7 +18,7 @@
 
 module Opc
   class OpcOrgCreate < Chef::Knife
-    category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
+    category "CHEF ORGANIZATION MANAGEMENT"
     banner "knife opc org create ORG_SHORT_NAME ORG_FULL_NAME (options)"
 
     option :filename,

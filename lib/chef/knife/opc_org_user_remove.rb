@@ -18,7 +18,7 @@
 
 module Opc
   class OpcOrgUserRemove < Chef::Knife
-    category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
+    category "CHEF ORGANIZATION MANAGEMENT"
     banner "knife opc org user remove ORG_NAME USER_NAME"
     attr_accessor :org_name, :username
 
