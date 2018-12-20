@@ -19,7 +19,7 @@ require "chef/mixin/root_rest"
 
 module Opc
   class OpcUserDelete < Chef::Knife
-    category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
+    category "CHEF ORGANIZATION MANAGEMENT"
     banner "knife opc user delete USERNAME [-d] [-R]"
 
     option :no_disassociate_user,

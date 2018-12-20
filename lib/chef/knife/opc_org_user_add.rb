@@ -18,7 +18,7 @@
 
 module Opc
   class OpcOrgUserAdd < Chef::Knife
-    category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
+    category "CHEF ORGANIZATION MANAGEMENT"
     banner "knife opc org user add ORG_NAME USER_NAME"
     attr_accessor :org_name, :username
 

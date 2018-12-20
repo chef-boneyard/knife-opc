@@ -19,7 +19,7 @@ require "chef/mixin/root_rest"
 
 module Opc
   class OpcOrgList < Chef::Knife
-    category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
+    category "CHEF ORGANIZATION MANAGEMENT"
     banner "knife opc org list"
 
     option :with_uri,

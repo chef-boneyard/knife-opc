@@ -19,7 +19,7 @@ require "chef/mixin/root_rest"
 
 module Opc
   class OpcUserCreate < Chef::Knife
-    category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
+    category "CHEF ORGANIZATION MANAGEMENT"
     banner "knife opc user create USERNAME FIRST_NAME [MIDDLE_NAME] LAST_NAME EMAIL PASSWORD"
 
     option :filename,

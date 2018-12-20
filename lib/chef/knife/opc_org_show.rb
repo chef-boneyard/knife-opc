@@ -19,7 +19,7 @@ require "chef/mixin/root_rest"
 
 module Opc
   class OpcOrgShow < Chef::Knife
-    category "OPSCODE PRIVATE CHEF ORGANIZATION MANAGEMENT"
+    category "CHEF ORGANIZATION MANAGEMENT"
     banner "knife opc org show ORGNAME"
 
     include Chef::Mixin::RootRestv0
