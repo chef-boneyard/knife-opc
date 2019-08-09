@@ -23,14 +23,14 @@ module Opc
     banner "knife opc org list"
 
     option :with_uri,
-    long: "--with-uri",
-    short: "-w",
-    description: "Show corresponding URIs"
+      long: "--with-uri",
+      short: "-w",
+      description: "Show corresponding URIs"
 
     option :all_orgs,
-    long: "--all-orgs",
-    short: "-a",
-    description: "Show auto-generated hidden orgs in output"
+      long: "--all-orgs",
+      short: "-a",
+      description: "Show auto-generated hidden orgs in output"
 
     include Chef::Mixin::RootRestv0
 

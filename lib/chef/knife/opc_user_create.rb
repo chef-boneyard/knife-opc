@@ -23,19 +23,19 @@ module Opc
     banner "knife opc user create USERNAME FIRST_NAME [MIDDLE_NAME] LAST_NAME EMAIL PASSWORD"
 
     option :filename,
-    long: "--filename FILENAME",
-    short: "-f FILENAME",
-    description: "Write private key to FILENAME rather than STDOUT"
+      long: "--filename FILENAME",
+      short: "-f FILENAME",
+      description: "Write private key to FILENAME rather than STDOUT"
 
     option :orgname,
-    long: "--orgname ORGNAME",
-    short: "-o ORGNAME",
-    description: "Associate new user to an organization matching ORGNAME"
+      long: "--orgname ORGNAME",
+      short: "-o ORGNAME",
+      description: "Associate new user to an organization matching ORGNAME"
 
     option :passwordprompt,
-    long: "--prompt-for-password",
-    short: "-p",
-    description: "Prompt for user password"
+      long: "--prompt-for-password",
+      short: "-p",
+      description: "Prompt for user password"
 
     include Chef::Mixin::RootRestv0
 

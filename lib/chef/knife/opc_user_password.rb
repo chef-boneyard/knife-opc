@@ -23,9 +23,9 @@ module Opc
     banner "knife opc user password USERNAME [PASSWORD | --enable-external-auth]"
 
     option :enable_external_auth,
-    long: "--enable-external-auth",
-    short: "-e",
-    description: "Enable external authentication for this user (such as LDAP)"
+      long: "--enable-external-auth",
+      short: "-e",
+      description: "Enable external authentication for this user (such as LDAP)"
 
     include Chef::Mixin::RootRestv0
 
@@ -34,7 +34,7 @@ module Opc
       # USERNAME PASSWORD or USERNAME --enable-external-auth
       #
       # note that you can't pass USERNAME PASSWORD --enable-external-auth
-      if !((@name_args.length == 2 && !config[:enable_external_auth]) || (@name_args.length == 1 && config[:enable_external_auth]))
+      unless (@name_args.length == 2 && !config[:enable_external_auth]) || (@name_args.length == 1 && config[:enable_external_auth])
         show_usage
         ui.fatal("You must pass two arguments")
         ui.fatal("Note that --enable-external-auth cannot be passed with a password")
@@ -52,7 +52,7 @@ module Opc
       # changing anything before we PUT.
       user = root_rest.get("users/#{user_name}")
 
-      user["password"] = password if not password.nil?
+      user["password"] = password unless password.nil?
 
       # if --enable-external-auth was passed, enable it, else disable it.
       # there is never a situation where we would want to enable ldap

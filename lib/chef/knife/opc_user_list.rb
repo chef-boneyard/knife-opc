@@ -23,9 +23,9 @@ module Opc
     banner "knife opc user list"
 
     option :with_uri,
-    long: "--with-uri",
-    short: "-w",
-    description: "Show corresponding URIs"
+      long: "--with-uri",
+      short: "-w",
+      description: "Show corresponding URIs"
 
     include Chef::Mixin::RootRestv0
 
