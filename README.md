@@ -2,6 +2,14 @@
 
 [![Gem Version](https://badge.fury.io/rb/knife-opc.svg)](https://rubygems.org/gems/knife-opc) [![Build Status](https://travis-ci.org/chef/knife-opc.svg?branch=master)](https://travis-ci.org/chef/knife-opc)
 
+* **Umbrella Project: [Knife](https://github.com/chef/chef-oss-practices/blob/master/projects/knife.md)**
+
+* **Project State [Active](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md#active)**
+
+* **Issues [Response Time Maximum](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md#what-is-the-response-time-maximum): 14 days**
+
+* **Pull Request [Response Time Maximum](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md#what-is-the-response-time-maximum): 14 days**
+
 This knife plugin supports basic organization and user operations in Chef Server 12 or later.
 
 - Documentation: <https://github.com/chef/knife-opc/blob/master/README.md>

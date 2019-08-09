@@ -117,7 +117,7 @@ module Opc
         Run this command again with the --remove-from-admin-groups option to
         remove the user from these admin group(s) automatically.
 
-EOM
+      EOM
       ui.fatal message
       exit 1
     end
@@ -128,7 +128,7 @@ EOM
         #{username} is the only member of the 'admins' group of the
         following organization(s):
 
-EOM
+      EOM
       only_admin_of.each { |org| message << "- #{org.name}\n" }
       message << <<~EOM
 
@@ -136,7 +136,7 @@ EOM
         Assign additional users or groups to the admin group(s) before
         deleting this user.
 
-EOM
+      EOM
       ui.fatal message
       exit 1
     end

@@ -23,9 +23,9 @@ module Opc
     attr_accessor :org_name, :username
 
     option :force_remove_from_admins,
-    long: "--force",
-    short: "-f",
-    description: "Force removal of user from the organization's admins and billing-admins group."
+      long: "--force",
+      short: "-f",
+      description: "Force removal of user from the organization's admins and billing-admins group."
 
     deps do
       require "chef/org"
@@ -51,7 +51,7 @@ module Opc
             You ran with --force which force removes the user from the admins and billing-admins groups.
             However, removing #{username} from the admins group would leave it empty, which breaks the org.
             Please add another user to org #{org_name} admins group and try again.
-EOF
+          EOF
           exit 1
         end
         remove_user_from_admin_group(org, org_name, username, "admins")
@@ -71,7 +71,7 @@ EOF
             ui.msg <<~EOF
               User #{username} is in the organization's admin group. Removing users from an organization without removing them from the admins group is not allowed.
               Re-run this command with --force to remove this user from the admins prior to removing it from the organization.
-EOF
+            EOF
             exit 1
           else
             raise e
@@ -93,7 +93,7 @@ EOF
         ui.warn <<~EOF
           User #{username} is not in the #{admin_group_string} group for organization #{org_name}.
           You probably don't need to pass --force.
-EOF
+        EOF
       else
         raise e
       end
