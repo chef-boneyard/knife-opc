@@ -1,4 +1,4 @@
-require "chef/org"
+require_relative "../org"
 
 class Chef
   class Org

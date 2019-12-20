@@ -28,8 +28,8 @@ module Opc
       description: "Force removal of user from the organization's admins and billing-admins group."
 
     deps do
-      require "chef/org"
-      require "chef/org/group_operations"
+      require_relative "../org"
+      require_relative "../org/group_operations"
       require "chef/json_compat"
     end
 

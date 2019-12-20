@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require "chef/mixin/root_rest"
+require_relative "../mixin/root_rest"
 
 module Opc
   class OpcUserDelete < Chef::Knife
@@ -36,8 +36,8 @@ module Opc
     include Chef::Mixin::RootRestv0
 
     deps do
-      require "chef/org"
-      require "chef/org/group_operations"
+      require_relative "../org"
+      require_relative "../org/group_operations"
     end
 
     def run
