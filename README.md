@@ -1,6 +1,7 @@
 # knife OPC
 
-[![Gem Version](https://badge.fury.io/rb/knife-opc.svg)](https://rubygems.org/gems/knife-opc) [![Build Status](https://travis-ci.org/chef/knife-opc.svg?branch=master)](https://travis-ci.org/chef/knife-opc)
+[![Build status](https://badge.buildkite.com/6b4a45c482e912c769359ced2f7aad2b05cae075ce66ccceb3.svg?branch=master)](https://buildkite.com/chef-oss/chef-knife-opc-master-verify)
+[![Gem Version](https://badge.fury.io/rb/knife-opc.svg)](https://rubygems.org/gems/knife-opc)
 
 * **Umbrella Project: [Knife](https://github.com/chef/chef-oss-practices/blob/master/projects/knife.md)**
 
@@ -132,7 +133,7 @@ For information on contributing to this project see <https://github.com/chef/che
 
 ## License
 
-Copyright:: Copyright (c) 2011-2018 Chef Software, Inc.
+Copyright:: Copyright (c) 2011-2019 Chef Software, Inc.
 
 License:: Apache License, Version 2.0
 
