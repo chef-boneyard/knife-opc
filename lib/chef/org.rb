@@ -1,7 +1,7 @@
 require "chef/json_compat"
 require "chef/mixin/params_validate"
 require "chef/server_api"
-require "chef/org/group_operations"
+require_relative "org/group_operations"
 
 class Chef
   class Org

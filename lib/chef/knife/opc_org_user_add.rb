@@ -28,8 +28,8 @@ module Opc
       description: "Add user to admin group"
 
     deps do
-      require "chef/org"
-      require "chef/org/group_operations"
+      require_relative "../org"
+      require_relative "../org/group_operations"
     end
 
     def run
