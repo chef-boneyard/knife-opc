@@ -15,7 +15,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require_relative "../mixin/root_rest"
 
 module Opc
   class OpcUserShow < Chef::Knife
@@ -26,7 +25,10 @@ module Opc
       long: "--with-orgs",
       short: "-l"
 
-    include Chef::Mixin::RootRestv0
+    deps do
+      require_relative "../mixin/root_rest"
+      include Chef::Mixin::RootRestv0
+    end
 
     def run
       user_name = @name_args[0]

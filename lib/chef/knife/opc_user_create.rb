@@ -15,7 +15,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require_relative "../mixin/root_rest"
 
 module Opc
   class OpcUserCreate < Chef::Knife
@@ -37,7 +36,10 @@ module Opc
       short: "-p",
       description: "Prompt for user password"
 
-    include Chef::Mixin::RootRestv0
+    deps do
+      require_relative "../mixin/root_rest"
+      include Chef::Mixin::RootRestv0
+    end
 
     def run
       case @name_args.count

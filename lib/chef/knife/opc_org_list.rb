@@ -15,7 +15,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require_relative "../mixin/root_rest"
 
 module Opc
   class OpcOrgList < Chef::Knife
@@ -32,7 +31,10 @@ module Opc
       short: "-a",
       description: "Show auto-generated hidden orgs in output"
 
-    include Chef::Mixin::RootRestv0
+    deps do
+      require_relative "../mixin/root_rest"
+      include Chef::Mixin::RootRestv0
+    end
 
     def run
       results = root_rest.get("organizations")

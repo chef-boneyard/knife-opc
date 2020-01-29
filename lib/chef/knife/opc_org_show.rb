@@ -15,14 +15,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require_relative "../mixin/root_rest"
 
 module Opc
   class OpcOrgShow < Chef::Knife
     category "CHEF ORGANIZATION MANAGEMENT"
     banner "knife opc org show ORGNAME"
 
-    include Chef::Mixin::RootRestv0
+    deps do
+      require_relative "../mixin/root_rest"
+      include Chef::Mixin::RootRestv0
+    end
 
     def run
       org_name = @name_args[0]

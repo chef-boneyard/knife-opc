@@ -22,6 +22,11 @@ module Opc
     category "CHEF ORGANIZATION MANAGEMENT"
     banner "knife opc org edit ORG"
 
+    deps do
+      require_relative "../mixin/root_rest"
+      include Chef::Mixin::RootRestv0
+    end
+
     def run
       org_name = @name_args[0]
 
@@ -30,8 +35,6 @@ module Opc
         ui.fatal("You must specify an organization name")
         exit 1
       end
-
-      include Chef::Mixin::RootRestv0
 
       original_org = root_rest.get("organizations/#{org_name}")
       edited_org = edit_data(original_org)

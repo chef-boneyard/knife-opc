@@ -15,7 +15,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require_relative "../mixin/root_rest"
 
 module Opc
   class OpcUserDelete < Chef::Knife
@@ -33,11 +32,12 @@ module Opc
       description: "If the user is a member of any org admin groups, attempt to remove from those groups. Ignored if --no-disassociate-user is set."
 
     attr_reader :username
-    include Chef::Mixin::RootRestv0
 
     deps do
       require_relative "../org"
       require_relative "../org/group_operations"
+      require_relative "../mixin/root_rest"
+      include Chef::Mixin::RootRestv0
     end
 
     def run

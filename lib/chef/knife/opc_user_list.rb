@@ -15,7 +15,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require_relative "../mixin/root_rest"
 
 module Opc
   class OpcUserList < Chef::Knife
@@ -27,7 +26,10 @@ module Opc
       short: "-w",
       description: "Show corresponding URIs"
 
-    include Chef::Mixin::RootRestv0
+    deps do
+      require_relative "../mixin/root_rest"
+      include Chef::Mixin::RootRestv0
+    end
 
     def run
       results = root_rest.get("users")
