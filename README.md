@@ -82,7 +82,10 @@ Creates a new user in your OPC installation. The user's private key will be retu
 
 Deletes the given OPC user.
 
-### knife opc user edit USERNAME
+### knife opc user edit USERNAME (options)
+
+- `-i FILENAME`, `--input FILENAME`: Will read the user information (i.e. username, email, display_name, first_name, last_name, middle_name) from the input FILENAME and update the given OPC user.
+- `-f FILENAME`, `--filename FILENAME`: Open FILENAME on $EDITOR. When finished, Updates the given OPC user.
 
 Will open $EDITOR. When finished, Knife will update the given OPC user.
 
