@@ -44,11 +44,7 @@ module Opc
       end
 
       original_user = root_rest.get("users/#{user_name}")
-      if config[:input]
-        edited_user = JSON.parse(IO.read(config[:input]))
-      else
-        edited_user = edit_data(original_user)
-      end
+      edited_user = get_updated_user(original_user)
       if original_user != edited_user
         result = root_rest.put("users/#{user_name}", edited_user)
         ui.msg("Saved #{user_name}.")
@@ -63,6 +59,34 @@ module Opc
         end
       else
         ui.msg("User unchanged, not saving.")
+      end
+    end
+
+    private
+
+    # Check the options for ex: input or filename
+    # Read Or Open file to update user information
+    # return updated user
+    def get_updated_user(original_user)
+      if config[:input]
+        edited_user = JSON.parse(IO.read(config[:input]))
+      elsif config[:filename]
+        file = config[:filename]
+        unless File.exist?(file) ? File.writable?(file) : File.writable?(File.dirname(file))
+          ui.fatal "File #{file} is not writable.  Check permissions."
+          exit 1
+        else
+          output = Chef::JSONCompat.to_json_pretty(original_user)
+          File.open(file, "w") do |f|
+            f.sync = true
+            f.puts output
+            f.close
+            raise "Please set EDITOR environment variable. See https://docs.chef.io/knife_setup/ for details." unless system("#{config[:editor]} #{f.path}")
+            edited_user = JSON.parse(IO.read(f.path))
+          end
+        end
+      else
+        edited_user = JSON.parse(edit_data(original_user, false))
       end
     end
   end
