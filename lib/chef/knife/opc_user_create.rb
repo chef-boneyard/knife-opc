@@ -69,7 +69,7 @@ module Opc
         password: password,
       }
 
-     # Check the file before creating the user so the api is more transactional.
+      # Check the file before creating the user so the api is more transactional.
       if config[:filename]
         file = config[:filename]
         unless File.exist?(file) ? File.writable?(file) : File.writable?(File.dirname(file))
