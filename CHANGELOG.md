@@ -1,9 +1,17 @@
 # knife-opc Change Log
 
-<!-- latest_release -->
+<!-- latest_release 0.4.5 -->
+## [v0.4.5](https://github.com/chef/knife-opc/tree/v0.4.5) (2020-07-23)
+
+#### Merged Pull Requests
+- Praj/fix verify pipeline [#55](https://github.com/chef/knife-opc/pull/55) ([PrajaktaPurohit](https://github.com/PrajaktaPurohit))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=0.4.4 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Praj/fix verify pipeline [#55](https://github.com/chef/knife-opc/pull/55) ([PrajaktaPurohit](https://github.com/PrajaktaPurohit)) <!-- 0.4.5 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
