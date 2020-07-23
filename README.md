@@ -84,10 +84,10 @@ Deletes the given OPC user.
 
 ### knife opc user edit USERNAME (options)
 
-- `-i FILENAME`, `--input FILENAME`: Reads the user information (`username`, `email`, `display_name`, `first_name`, `last_name`, `middle_name`) from the input FILENAME and updates the given OPC user.
-- `-f FILENAME`, `--filename FILENAME`: Opens FILENAME in $EDITOR. Updates the given OPC user when the file is saved. This file is expected to be in the json format.
+- `-i FILENAME`, `--input FILENAME`: Reads the user information (`username`, `email`, `display_name`, `first_name`, `last_name`, `middle_name`) from the input FILENAME and updates the given OPC user. This file is expected to be in the json format.
 
 ### For example:
+
 ```
 {
   "username": "test",
@@ -99,6 +99,8 @@ Deletes the given OPC user.
   "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9wXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\nPukZaQcKSo4lnF9mMXXXXXXXXXXXXX7nKKRCaS5ranjsaQXeTJA\nLdFLYuL46XiUXXXXXXXXXXXXXXXXXGRwCrAnVyz0iSuNH7\nr9OZaWm+iVaHReFLleNT+CNuNXXXXXXXXXXXXXXXXXXwv9TFLCGiJyzzk\nhLnvgj8n39JtXiC6lIRXXXXXXXXX/ccd3yQusczFreQ\nyDcW+4HS9B6eLyNH1ty9IcFVbL4P4L/kKPHtzkXXXXXXXXXXXXXinPA\nYQIDAQAB\n-----END PUBLIC KEY-----\n\n"
 }
 ```
+
+- `-f FILENAME`, `--filename FILENAME`: Opens FILENAME in $EDITOR. Updates the given OPC user when the file is saved.
 
 Will open $EDITOR. When finished, Knife will update the given OPC user.
 
