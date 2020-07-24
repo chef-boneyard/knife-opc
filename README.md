@@ -84,7 +84,7 @@ Deletes the given OPC user.
 
 ### knife opc user edit USERNAME (options)
 
-- `-i FILENAME`, `--input FILENAME`: Reads the user information (`username`, `email`, `display_name`, `first_name`, `last_name`, `middle_name`) from the input FILENAME and updates the given OPC user. This file is expected to be in the json format.
+- `-i FILENAME`, `--input FILENAME`: Reads the user information (`username`, `email`, `display_name`, `first_name`, `last_name`, `middle_name`) from the input FILENAME and updates the given OPC user. Knife will accept a JSON file.
 
 ### For example:
 
