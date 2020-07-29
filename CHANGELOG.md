@@ -1,16 +1,17 @@
 # knife-opc Change Log
 
-<!-- latest_release 0.4.5 -->
-## [v0.4.5](https://github.com/chef/knife-opc/tree/v0.4.5) (2020-07-23)
+<!-- latest_release 0.4.6 -->
+## [v0.4.6](https://github.com/chef/knife-opc/tree/v0.4.6) (2020-07-29)
 
 #### Merged Pull Requests
-- Praj/fix verify pipeline [#55](https://github.com/chef/knife-opc/pull/55) ([PrajaktaPurohit](https://github.com/PrajaktaPurohit))
+- OPC user edit throwing hydrate errors fixes [#54](https://github.com/chef/knife-opc/pull/54) ([antima-gupta](https://github.com/antima-gupta))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.4.4 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- OPC user edit throwing hydrate errors fixes [#54](https://github.com/chef/knife-opc/pull/54) ([antima-gupta](https://github.com/antima-gupta)) <!-- 0.4.6 -->
 - Praj/fix verify pipeline [#55](https://github.com/chef/knife-opc/pull/55) ([PrajaktaPurohit](https://github.com/PrajaktaPurohit)) <!-- 0.4.5 -->
 <!-- release_rollup -->
 
