@@ -40,7 +40,7 @@ module Opc
         rescue Net::HTTPServerException => e
           body = Chef::JSONCompat.from_json(e.response.body)
           if e.response.code == "403" && body["error"] == "Please remove #{username} from this organization's admins group before removing him or her from the organization."
-            ui.error "Error removing user #{username} from org #{org} due to user being in that org's admins group."
+            ui.error "Error removing user #{username} from organization #{org} due to user being in that organization's admins group."
             ui.msg "Please remove #{username} from the admins group for #{org} before deleting the user."
             ui.msg "This can be accomplished by passing --force to the org user remove command."
             exit 1

@@ -26,7 +26,7 @@ describe Opc::OpcUserDelete do
     expect(knife.ui).to receive(:confirm).with("Do you want to delete the user testuser").and_return("Y")
     allow(@rest).to receive(:get).with("users/testuser/organizations").and_return(@orgs)
     allow(@rest).to receive(:delete).with("organizations/testorg/users/testuser").and_raise(Net::HTTPServerException.new(nil, OpenStruct.new({ code: "403", body: "{\"error\":\"Please remove testuser from this organization's admins group before removing him or her from the organization.\"}" })))
-    expect(knife.ui).to receive(:error).with("Error removing user testuser from org testorg due to user being in that org's admins group.")
+    expect(knife.ui).to receive(:error).with("Error removing user testuser from organization testorg due to user being in that organization's admins group.")
     expect(knife.ui).to receive(:msg).with("Please remove testuser from the admins group for testorg before deleting the user.")
     expect(knife.ui).to receive(:msg).with("This can be accomplished by passing --force to the org user remove command.")
     knife.run
