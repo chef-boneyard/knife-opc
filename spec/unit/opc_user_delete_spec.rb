@@ -7,7 +7,7 @@ describe Opc::OpcUserDelete do
 
   before :each do
     @orgs = [
-              { "organization" => { "name" => "testorg" } }
+              { "organization" => { "name" => "testorg" } },
             ]
     @rest = double("Chef::ServerAPI")
     allow(Chef::ServerAPI).to receive(:new).and_return(@rest)
