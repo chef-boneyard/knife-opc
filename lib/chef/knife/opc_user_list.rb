@@ -32,7 +32,6 @@ module Opc
       short: "-a",
       description: "Show corresponding details i.e. username, email, first_name, last_name, display_name"
 
-
     include Chef::Mixin::RootRestv0
 
     def run
@@ -55,7 +54,7 @@ module Opc
         user_list = user_list.merge(user_info)
         final_list.push(user_list)
       end
-      return final_list
+      final_list
     end
   end
 end

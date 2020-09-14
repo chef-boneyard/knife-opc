@@ -9,14 +9,14 @@ describe Opc::OpcUserList do
         "email": "test_user1@example.com",
         "first_name": "Test",
         "last_name": "User1",
-        "display_name": "Test User1"
+        "display_name": "Test User1",
       },
       "test_user2" => {
         "email": "agupta@example.com",
         "first_name": "Test",
         "last_name": "User2",
-        "display_name": "Test User2"
-      }
+        "display_name": "Test User2",
+      },
 
     }
   end
@@ -39,7 +39,7 @@ describe Opc::OpcUserList do
     let(:users) do
       {
        "test_user1" =>  "https://example.com/organizations/test_org1/users/test_user1",
-       "test_user2" => "https://example.com/organizations/test_org2/users/test_user2"
+       "test_user2" => "https://example.com/organizations/test_org2/users/test_user2",
       }
     end
 
@@ -61,19 +61,19 @@ describe Opc::OpcUserList do
 
     it "list all user with more detail about a user" do
       expect(@knife.ui).to receive(:output)
-      .with([ 
-        { :display_name => "Test User1", 
-          :email => "test_user1@example.com", 
-          :first_name=> "Test", 
-          :last_name => "User1", 
-          :username => "test_user1"
+        .with([
+        { display_name: "Test User1",
+          email: "test_user1@example.com",
+          first_name: "Test",
+          last_name: "User1",
+          username: "test_user1",
         },
-        { :display_name=> "Test User2", 
-          :email=> "agupta@example.com", 
-          :first_name=> "Test", 
-          :last_name=> "User2", 
-          :username => "test_user2"
-        }
+        { display_name: "Test User2",
+          email: "agupta@example.com",
+          first_name: "Test",
+          last_name: "User2",
+          username: "test_user2",
+        },
       ])
       @knife.run
     end
