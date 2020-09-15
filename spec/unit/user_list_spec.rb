@@ -60,21 +60,7 @@ describe Opc::OpcUserList do
     end
 
     it "list all user with more detail about a user" do
-      expect(@knife.ui).to receive(:output)
-        .with([
-        { display_name: "Test User1",
-          email: "test_user1@example.com",
-          first_name: "Test",
-          last_name: "User1",
-          username: "test_user1",
-        },
-        { display_name: "Test User2",
-          email: "agupta@example.com",
-          first_name: "Test",
-          last_name: "User2",
-          username: "test_user2",
-        },
-      ])
+      expect(@knife.ui).to receive(:output).with(users)
       @knife.run
     end
   end

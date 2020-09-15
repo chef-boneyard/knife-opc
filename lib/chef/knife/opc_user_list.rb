@@ -37,24 +37,11 @@ module Opc
     def run
       if config[:all_info]
         results = root_rest.get("users?verbose=true")
-        ui.output format_user_list(results)
+        ui.output results
       else
         results = root_rest.get("users")
         ui.output(ui.format_list_for_display(results))
       end
-    end
-
-    private
-
-    def format_user_list(users)
-      final_list = []
-      users.each do |username, user_info|
-        user_list = {}
-        user_list[:username] = username
-        user_list = user_list.merge(user_info)
-        final_list.push(user_list)
-      end
-      final_list
     end
   end
 end
