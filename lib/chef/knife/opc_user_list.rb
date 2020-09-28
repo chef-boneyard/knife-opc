@@ -27,11 +27,21 @@ module Opc
       short: "-w",
       description: "Show corresponding URIs"
 
+    option :all_info,
+      long: "--all-info",
+      short: "-a",
+      description: "Show corresponding details i.e. username, email, first_name, last_name, display_name"
+
     include Chef::Mixin::RootRestv0
 
     def run
-      results = root_rest.get("users")
-      ui.output(ui.format_list_for_display(results))
+      if config[:all_info]
+        results = root_rest.get("users?verbose=true")
+        ui.output results
+      else
+        results = root_rest.get("users")
+        ui.output(ui.format_list_for_display(results))
+      end
     end
   end
 end
