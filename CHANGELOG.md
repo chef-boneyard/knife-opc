@@ -1,9 +1,17 @@
 # knife-opc Change Log
 
-<!-- latest_release -->
+<!-- latest_release 0.4.7 -->
+## [v0.4.7](https://github.com/chef/knife-opc/tree/v0.4.7) (2020-09-28)
+
+#### Merged Pull Requests
+- Added all_info option to retrieve more than just username in opc user list [#58](https://github.com/chef/knife-opc/pull/58) ([antima-gupta](https://github.com/antima-gupta))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=0.4.6 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Added all_info option to retrieve more than just username in opc user list [#58](https://github.com/chef/knife-opc/pull/58) ([antima-gupta](https://github.com/antima-gupta)) <!-- 0.4.7 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
