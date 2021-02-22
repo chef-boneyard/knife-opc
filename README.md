@@ -4,11 +4,20 @@
 
 * **Umbrella Project: [Knife](https://github.com/chef/chef-oss-practices/blob/master/projects/knife.md)**
 
-* **Project State [Active](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md#active)**
+* **Project State [Deprecated](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md#deprecated)**
 
-* **Issues [Response Time Maximum](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md#what-is-the-response-time-maximum): 14 days**
+* **Issues [Response Time Maximum](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md#what-is-the-response-time-maximum): NA**
 
-* **Pull Request [Response Time Maximum](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md#what-is-the-response-time-maximum): 14 days**
+* **Pull Request [Response Time Maximum](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md#what-is-the-response-time-maximum): NA**
+
+---
+
+### Deprecated
+
+This plugin has been merged into the knife code within Chef Infra Client itself at https://github.com/chef/chef
+
+---
+
 
 This knife plugin supports basic organization and user operations in Chef Server 12 or later.
 
