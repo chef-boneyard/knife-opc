@@ -14,7 +14,7 @@ group :test do
     gem "chef-zero", "~> 14"
     gem "chef", "~> 15"
   else
-    gem "chef"
+    gem "chef", "~> 16"
   end
   gem "chefstyle"
   gem "rspec", "~> 3.0"

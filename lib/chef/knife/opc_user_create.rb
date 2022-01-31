@@ -95,7 +95,7 @@ module Opc
     end
 
     def prompt_for_password
-      ui.ask("Please enter the user's password: ") { |q| q.echo = false }
+      ui.ask("Please enter the user's password: ", echo: false)
     end
   end
 end
