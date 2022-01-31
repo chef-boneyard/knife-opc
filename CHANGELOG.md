@@ -7,11 +7,16 @@
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v0.4.8](https://github.com/chef/knife-opc/tree/v0.4.8) (2022-01-31)
+
+#### Merged Pull Requests
+- Fix the password prompting in the user create command [#59](https://github.com/chef/knife-opc/pull/59) ([tas50](https://github.com/tas50))
+<!-- latest_stable_release -->
+
 ## [v0.4.7](https://github.com/chef/knife-opc/tree/v0.4.7) (2020-09-28)
 
 #### Merged Pull Requests
 - Added all_info option to retrieve more than just username in opc user list [#58](https://github.com/chef/knife-opc/pull/58) ([antima-gupta](https://github.com/antima-gupta))
-<!-- latest_stable_release -->
 
 ## [v0.4.6](https://github.com/chef/knife-opc/tree/v0.4.6) (2020-07-29)
 
